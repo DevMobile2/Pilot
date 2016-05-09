@@ -1,0 +1,74 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+	<dimen name="slidingnav_width">280.0dip</dimen>
+	<dimen name="profile_left_width">220.0dip</dimen>
+    <dimen name="slidingnav_label_height">35.0dip</dimen>
+    <dimen name="slidingnav_item_height">40.0dip</dimen>
+    
+    <dimen name="default_padding_top">8dp</dimen>
+  <dimen name="default_padding_bottom">8dp</dimen>
+  <dimen name="inner_padding_left">0dp</dimen>
+  <dimen name="inner_padding_right">0dp</dimen>
+  <dimen name="floating_label_text_size">14dp</dimen>
+  <dimen name="inner_components_spacing">8dp</dimen>
+  <dimen name="bottom_ellipsis_height">4dp</dimen>
+    
+     <dimen name="slidingnav_separator_height">20.0dip</dimen>
+     <dimen name="menu_stroke_width">1.5dp</dimen>
+     <dimen name="msg_btn">28dp</dimen>
+      <dimen name="view_header_seperator">4dp</dimen>
+      <dimen name="view_margin">8dp</dimen>
+      <dimen name="view_margin_10">15dp</dimen>
+       <dimen name="view_margin_15">20dp</dimen>
+      <dimen name="view_margin_20">25dp</dimen>
+      <dimen name="view_margin_25">30dp</dimen>
+      <dimen name="view_margin_40">60dp</dimen>
+      
+      <dimen name="proile_name_textsize">16dp</dimen>
+      <dimen name="reset_password_width">280dp</dimen>
+      <dimen name="editext_login_textsize">18dp</dimen>
+     <dimen name="editext_login_padding">4dp</dimen>
+     <dimen name="text_normal">14sp</dimen>
+     <dimen name="text_name">16sp</dimen>
+     <dimen name="text_header">17sp</dimen>
+     <dimen name="text_small">13sp</dimen>
+     <dimen name="text_profile_edit_texts">18sp</dimen>
+     <dimen name="spinner_textsize">16dp</dimen>
+    <dimen name="spinner_height">50dp</dimen>
+    <dimen name="dash_button_height">35dp</dimen>
+    <dimen name="search_button_height">30dp</dimen>
+    
+    <dimen name="profile_image">100dp</dimen>
+    <dimen name="profile_image_edit">120dp</dimen>
+    <dimen name="interviewer_image_edit">130dp</dimen>
+    <dimen name="login_layouyt_width">550dip</dimen>
+    
+    <dimen name="feed_item_margin">10dp</dimen>
+    <dimen name="feed_item_padding_top_bottom">20dp</dimen>
+    <dimen name="feed_item_padding_left_right">15dp</dimen>
+    <dimen name="feed_item_profile_pic">50dp</dimen>
+    <dimen name="feed_item_profile_info_padd">10dp</dimen>
+    <dimen name="feed_item_profile_name">15dp</dimen>
+    <dimen name="feed_item_timestamp">13dp</dimen>
+    <dimen name="feed_item_status_pad_left_right">15dp</dimen>
+    <dimen name="feed_item_status_pad_top">13dp</dimen>
+    <dimen name="feed_item_corner_radius">3dp</dimen>
+    <dimen name="feed_item_border_width">1dp</dimen>
+    
+    <dimen name="notification_btn">25dp</dimen>
+    
+    <dimen name="ldrawer_drawableSize">50dp</dimen>
+    <dimen name="ldrawer_barSize">18dp</dimen>
+    <dimen name="ldrawer_topBottomBarArrowSize">11dp</dimen>
+    <dimen name="ldrawer_thickness">2dp</dimen>
+    <dimen name="ldrawer_gapBetweenBars">3dp</dimen>
+    <dimen name="ldrawer_middleBarArrowSize">16dp</dimen>
+    <dimen name="dashboard_text_size">25sp</dimen>
+    <dimen name="dashboard_text_size_normal">23sp</dimen>
+    <dimen name="dashboard_profile_size">180dp</dimen>
+    <dimen name="dash_info_size">28dp</dimen>
+    <dimen name="cardview_categiries_height">200dp</dimen>
+</resources>

@@ -1,0 +1,181 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="colorPrimary">@color/blue_app</item>
+
+        <item name="colorPrimaryDark">@color/bluee</item>
+
+        <item name="colorAccent">@color/md_blue_400</item>
+        <item name="android:spinnerMode">dialog</item>
+        <item name="android:button">?android:attr/borderlessButtonStyle</item>
+        <item name="windowActionBar">true</item>
+        <!--<item name="windowActionBar">false</item>
+
+            All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <!--Popup menu style-->
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.ChannelBar" parent="AppTheme">
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/blue_app</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/blue_app</item>
+
+        <item name="colorPrimaryDark">@color/bluee</item>
+
+        <item name="colorAccent">@color/md_blue_400</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/background_material_light</item>
+
+    </style>
+
+    <style name="AppTheme.MessageBar" parent="AppTheme" />
+
+    <style name="custom_actionbar_theme" parent="@style/AppTheme">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+
+
+    <style name="button_parent" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:button">?android:attr/borderlessButtonStyle</item>
+    </style>
+
+
+    <style name="edittext_login_page">
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginLeft">@dimen/view_margin_10</item>
+        <item name="android:layout_marginRight">@dimen/view_margin_10</item>
+        <item name="android:textSize">@dimen/editext_login_textsize</item>
+
+        <item name="android:layout_height">@dimen/spinner_height</item>
+        <item name="android:layout_width">fill_parent</item>
+
+    </style>
+
+    <style name="margins">
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginStart">@dimen/view_margin_10</item>
+        <item name="android:layout_marginEnd">@dimen/view_margin_10</item>
+        <item name="android:textSize">@dimen/editext_login_textsize</item>
+        <item name="android:padding">@dimen/editext_login_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textview_parent">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="textview_name" parent="@style/textview_parent">
+        <item name="android:textSize">@dimen/text_name</item>
+
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="textview_name_normal" parent="@style/textview_name">
+        <item name="android:textStyle">normal</item>
+
+    </style>
+
+    <style name="textview_name_normal_greeen" parent="@style/textview_name_normal">
+        <item name="android:textColor">@color/green_text</item>
+    </style>
+
+    <style name="interview_report_header" parent="@style/textview_normal">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="textview_header" parent="@style/textview_name">
+        <item name="android:textSize">@dimen/text_header</item>
+    </style>
+
+    <style name="textview_header_normal" parent="@style/textview_header">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="textview_normal" parent="@style/textview_parent">
+        <item name="android:textSize">@dimen/text_normal</item>
+
+        <item name="android:textStyle">normal</item>
+
+
+    </style>
+
+    <style name="textview_normal_left" parent="@style/textview_normal">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="sublayout">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+
+    <style name="Widget.MyApp.HeaderBar.Spinner" parent="@style/Widget.AppCompat.Spinner.DropDown">
+
+        <item name="android:dropDownSelector">?android:selectableItemBackground</item>
+
+
+    </style>
+
+    <style name="colorPickerStyle" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+</resources>
+
+
