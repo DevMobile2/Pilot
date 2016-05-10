@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,50 +17,51 @@
             android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/cardview_categories_height">
             <ImageView
                 android:scaleType="fitXY"
                 android:src="@drawable/mobiles"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/cardview_categories_height"
-                android:id="@+id/ivCategory"/>
+                android:contentDescription="@string/app_name"
+                android:transitionName="ROBOT"
+                android:id="@+id/ivCategory"
+                tools:targetApi="lollipop" />
                 <TextView
                     style="@style/textview_header"
                     android:id="@+id/tvSold"
-                    android:textColor="@color/red"
+                    android:textColor="@color/md_white"
                     android:textStyle="bold"
-                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
                     android:text="SOLD OUT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent_light"/>
             </FrameLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/view_margin">
                 <TextView
                     android:singleLine="true"
                     android:id="@+id/tvCompanyName"
                     android:padding="@dimen/view_margin"
                     style="@style/textview_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mobiles" />
                 <LinearLayout
-                    android:weightSum="1"
+                    android:layout_alignParentTop="true"
                     android:layout_below="@+id/tvCompanyName"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/menu_layout"
+                    android:padding="@dimen/view_margin_10"
                     android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_weight="0.9"
-                        android:id= "@+id/tvCost"
-                        android:padding="@dimen/view_margin"
-                        style="@style/textview_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mobiles" />
+
                     <Button
-                       android:padding="@dimen/view_margin"
+
                         android:layout_gravity="center"
                         android:id="@+id/menu_icon"
                         android:layout_width="4dp"

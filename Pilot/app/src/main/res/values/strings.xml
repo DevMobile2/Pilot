@@ -100,4 +100,5 @@
     <string name="item_condition">Item Condition</string>
     <string name="specifications">Specifications</string>
     <string name="unit_price">Unit Price</string>
+    <string name="buy">BUY</string>
 </resources>

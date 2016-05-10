@@ -2,6 +2,7 @@ package com.amzur.pilot;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -24,17 +25,36 @@ public class ItemsActivity extends AppCompatActivity {
    ItemsAdapter itemsAdapter;
     //name of the selected category.
     String categoryName;
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fade_bottom_to_top,R.anim.fade_top_to_bottom);
         setContentView(R.layout.activity_items);
         Bundle b = getIntent().getExtras();
         categoryName = b.getString("category_name");
         ActionBar actionBar=getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        initViews();
         setTitle(categoryName);
         setAdapterToRecyclerView();
+    }
+
+    /**
+     * Initialize views*/
+    public void initViews()
+    {
+        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.refreshLayout);
+        rvItems = (RecyclerView) findViewById(R.id.rvItems);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     /**
@@ -42,11 +62,11 @@ public class ItemsActivity extends AppCompatActivity {
      */
     private void setAdapterToRecyclerView() {
         int numberOfColumns=1;
-        rvItems = (RecyclerView) findViewById(R.id.rvItems);
+
         int width=PreferenceData.getScreenWidth(ItemsActivity.this);
         if(width>500 && width <1200)
             numberOfColumns=2;
-        else if(width>1200)
+        else if(width>=1200)
             numberOfColumns=3;
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(numberOfColumns, 1);
         itemsAdapter = new ItemsAdapter(ItemsActivity.this, categoryName);

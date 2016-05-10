@@ -1,5 +1,6 @@
 package com.amzur.pilot;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amzur.pilot.utilities.PreferenceData;
+import com.squareup.picasso.Picasso;
 
 /**
  * This class displays item details of a selected item.
@@ -33,8 +35,7 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+           goHome();
         }
     };
 
@@ -47,7 +48,9 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
         initializeUIElements();
         getDataFromPreviousActivity();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(onClickListener);
+        if (fab != null) {
+            fab.setOnClickListener(onClickListener);
+        }
     }
 
     /**
@@ -55,7 +58,9 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
      */
     private void initializeUIElements() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         ivItem = (ImageView) findViewById(R.id.imageview_item);
         tvCompanyName = (TextView) findViewById(R.id.tvCompanyName);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -72,7 +77,12 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
         Bundle b = getIntent().getBundleExtra("itemDetails");
         if (b != null) {
             if (b.getInt("imageId") != 0)
-                ivItem.setImageResource(b.getInt("imageId"));
+                Picasso.with(this)
+                .load(b.getInt("imageId"))
+                .placeholder(R.drawable.ecommerce_placeholder)
+                .error(R.drawable.error_image)
+                .into(ivItem);
+
             if (b.getString("companyName") != null) {
                 collapsingToolbarLayout.setTitle(b.getString("companyName"));
                 collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(ViewItemDetailsActivity.this, R.color.blue_app));
@@ -82,16 +92,32 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, R.id.fab, Menu.NONE, "Home").setIcon(R.drawable.ic_home_white_36dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         menu.add(Menu.NONE, R.id.button, Menu.NONE, "Logout").setIcon(R.drawable.ic_power_settings_new_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.button)
-            PreferenceData.signOut(ViewItemDetailsActivity.this);
-        if (item.getItemId() == android.R.id.home)
-            finish();
+        switch (item.getItemId())
+        {
+            case R.id.button:PreferenceData.signOut(ViewItemDetailsActivity.this);
+                break;
+            case R.id.fab:goHome();
+                break;
+            case android.R.id.home:finish();
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+    /**
+     * Navigate to home page*/
+    public void goHome()
+    {
+        Intent in=new Intent(ViewItemDetailsActivity.this,CategoriesActivity.class);
+        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(in);
     }
 }

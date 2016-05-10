@@ -14,12 +14,35 @@
       android:layout_height="wrap_content"
       android:padding="@dimen/view_margin_10"
       >
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/priceBuyContainer">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/tvUnitPrice"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btBuy"
+                android:text="@string/buy"
+                android:layout_weight="1"
+                android:background="@drawable/buy_button"
+                android:padding="@dimen/view_margin_10"
+                android:gravity="center"
+                android:textColor="@color/dark_grey"
+                />
+        </LinearLayout>
       <TextView
           android:layout_marginTop="@dimen/view_margin_10"
           android:layout_marginRight="@dimen/view_margin_20"
           android:id="@+id/tvItemNameHeader"
           android:text="@string/item_name"
+          android:layout_below="@+id/priceBuyContainer"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header"/>
@@ -27,7 +50,7 @@
           android:layout_marginTop="@dimen/view_margin_10"
           android:layout_toRightOf="@+id/tvItemNameHeader"
           android:id="@+id/tvItemName"
-          android:text="test"
+          android:layout_alignTop="@+id/tvItemNameHeader"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header_normal"/>
@@ -45,7 +68,7 @@
           android:layout_below="@+id/tvItemName"
           android:layout_toRightOf="@+id/tvItemCategoryHeader"
           android:id="@+id/tvCategoryName"
-          android:text="test"
+
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header_normal"/>
@@ -63,7 +86,7 @@
           android:layout_below="@+id/tvCategoryName"
           android:layout_toRightOf="@+id/tvItemNameHeader"
           android:id="@+id/tvDescription"
-          android:text="test"
+
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header_normal"/>
@@ -81,7 +104,7 @@
           android:layout_below="@+id/tvDescription"
           android:layout_toRightOf="@+id/tvSpecHeader"
           android:id="@+id/tvSpecifications"
-          android:text="test"
+
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header_normal"/>
@@ -99,7 +122,7 @@
           android:layout_below="@+id/tvSpecifications"
           android:layout_toRightOf="@+id/tvSellerHeader"
           android:id="@+id/tvSeller"
-          android:text="test"
+
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header_normal"/>
@@ -117,31 +140,14 @@
           android:layout_below="@+id/tvSeller"
           android:layout_toRightOf="@+id/tvQuantityHeader"
           android:id="@+id/tvQuantity"
-          android:text="test"
+
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header_normal"/>
+
       <TextView
           android:layout_marginTop="@dimen/view_margin_10"
           android:layout_below="@+id/tvQuantityHeader"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvUnitHeader"
-          android:text="@string/unit_price"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvQuantity"
-          android:layout_toRightOf="@+id/tvConditionHeader"
-          android:id="@+id/tvUnitPrice"
-          android:text="test"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvUnitHeader"
           android:layout_marginRight="@dimen/view_margin_20"
           android:id="@+id/tvConditionHeader"
           android:text="@string/item_condition"
@@ -150,10 +156,10 @@
           style="@style/textview_header"/>
       <TextView
           android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvUnitPrice"
+          android:layout_below="@+id/tvQuantity"
           android:layout_toRightOf="@+id/tvConditionHeader"
           android:id="@+id/tvCondition"
-          android:text="test"
+
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           style="@style/textview_header_normal"/>

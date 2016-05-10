@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -26,6 +27,7 @@ public class CategoriesActivity extends AppCompatActivity {
     CategoriesAdapter categoriesAdapter;
     //flag used to quit the application on clicking back button twice.
     boolean doubleBackToExitPressedOnce = false;
+    SwipeRefreshLayout refreshLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,13 @@ public class CategoriesActivity extends AppCompatActivity {
      */
     private void initializeUIComponents() {
         recyclerViewCategories= (RecyclerView) findViewById(R.id.rvCategories);
+        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+            }
+        });
         setTitle("Categories");
     }
     @Override

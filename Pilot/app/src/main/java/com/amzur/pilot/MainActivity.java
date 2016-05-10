@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
         setContentView(R.layout.activity_main);
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.registerCallback(callbackManager, this);
+        if (loginButton != null) {
+            loginButton.registerCallback(callbackManager, this);
+        }
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken accessToken, AccessToken accessToken2) {
