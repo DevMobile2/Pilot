@@ -1,10 +1,12 @@
 package com.amzur.pilot;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.amzur.pilot.utilities.PreferenceData;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -13,8 +15,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -23,10 +23,8 @@ import org.json.JSONObject;
 /**
  * This class provides facebook login for the user.
  */
-public class MainActivity extends AppCompatActivity {
-    LoginButton loginButton;
+public class MainActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
     CallbackManager callbackManager;
-    ProfileTracker profileTracker;
     AccessTokenTracker accessTokenTracker;
 
     @Override
@@ -36,45 +34,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                Log.v("profile_information", response.toString());
-                                Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
-                                startActivity(intent);
-
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-
-            }
-
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-
-        });
+        loginButton.registerCallback(callbackManager, this);
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken accessToken, AccessToken accessToken2) {
                 if (accessToken2 == null) {
-                    Log.d("FB", "User Logged Out.");
-                    Intent intent=new Intent(MainActivity.this,MainActivity.class);
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
@@ -88,4 +53,45 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void onSuccess(LoginResult loginResult) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        PreferenceData.putLoginStatus(MainActivity.this, true);
+                        Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,gender,birthday");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (PreferenceData.isLogin(MainActivity.this)) {
+            Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
 }
+

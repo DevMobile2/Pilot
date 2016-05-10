@@ -70,5 +70,5 @@
     <dimen name="dashboard_text_size_normal">23sp</dimen>
     <dimen name="dashboard_profile_size">180dp</dimen>
     <dimen name="dash_info_size">28dp</dimen>
-    <dimen name="cardview_categiries_height">200dp</dimen>
+    <dimen name="cardview_categories_height">200dp</dimen>
 </resources>

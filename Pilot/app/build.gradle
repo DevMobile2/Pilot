@@ -6,6 +6,7 @@ android {
             keyAlias 'pilot'
             keyPassword 'android'
             storeFile file('C:/Users/RameshK/Documents/GitHub/Pilot/pilot.keystore')
+
             storePassword 'android'
         }
     }
@@ -32,7 +33,7 @@ android {
     productFlavors {
     }
 }
-def androidSupportVer = '23.2.0'
+def androidSupportVer = '23.2.1'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -41,4 +42,5 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$androidSupportVer"
     compile 'com.android.support:design:23.2.0'
     compile 'com.facebook.android:facebook-android-sdk:4.11.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

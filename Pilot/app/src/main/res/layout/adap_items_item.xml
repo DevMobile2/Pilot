@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <android.support.v7.widget.CardView
+        android:layout_margin="@dimen/view_margin_10"
+        android:id="@+id/cvCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/cardview_default_elevation">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:scaleType="fitXY"
+                android:src="@drawable/mobiles"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/cardview_categories_height"
+                android:id="@+id/ivCategory"/>
+                <TextView
+                    style="@style/textview_header"
+                    android:id="@+id/tvSold"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:text="SOLD OUT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/tvCompanyName"
+                    android:padding="@dimen/view_margin"
+                    style="@style/textview_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mobiles" />
+                <LinearLayout
+                    android:weightSum="1"
+                    android:layout_below="@+id/tvCompanyName"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_weight="0.9"
+                        android:id= "@+id/tvCost"
+                        android:padding="@dimen/view_margin"
+                        style="@style/textview_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mobiles" />
+                    <Button
+                       android:padding="@dimen/view_margin"
+                        android:layout_gravity="center"
+                        android:id="@+id/menu_icon"
+                        android:layout_width="4dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/post_manu_icon_black" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

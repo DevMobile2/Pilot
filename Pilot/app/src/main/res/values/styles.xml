@@ -30,7 +30,14 @@
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/blue_app</item>
+
+        <item name="colorPrimaryDark">@color/bluee</item>
+
+        <item name="colorAccent">@color/md_blue_400</item>
+        <item name="android:spinnerMode">dialog</item>
+        <item name="android:button">?android:attr/borderlessButtonStyle</item>
         <item name="windowActionBar">false</item>
     </style>
 

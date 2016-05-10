@@ -67,7 +67,7 @@
     <dimen name="ldrawer_gapBetweenBars">3dp</dimen>
     <dimen name="ldrawer_middleBarArrowSize">16dp</dimen>
     
-    <dimen name="login_layouyt_width">300dip</dimen>
-    <dimen name="cardview_categiries_height">150dp</dimen>
+    <dimen name="login_layout_width">300dip</dimen>
+    <dimen name="cardview_categories_height">150dp</dimen>
     
 </resources>
