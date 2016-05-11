@@ -1,6 +1,7 @@
 package com.amzur.pilot;
 
 import android.app.Activity;
+import android.app.Application;
 import android.provider.Settings;
 
 import com.amzur.pilot.myretrofit.GsonStringConverterFactory;
@@ -20,6 +21,7 @@ import retrofit.Retrofit;
 
 /**
  * Created by MRamesh on 11-05-2016.
+ *
  */
 public class MyApplication extends Application {
     private static MyApplication instance;
@@ -66,6 +68,7 @@ public class MyApplication extends Application {
             });
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
             httpClient.interceptors().add(interceptor);
             httpClient.setReadTimeout(1, TimeUnit.MINUTES);
             httpClient.setWriteTimeout(1, TimeUnit.MINUTES);

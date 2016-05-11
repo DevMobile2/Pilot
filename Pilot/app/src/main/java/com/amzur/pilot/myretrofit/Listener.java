@@ -52,15 +52,17 @@ public class Listener implements Callback<ResponseBody> {
             } else {
                 String res = response.body().string();
                 JSONObject obj = new JSONObject(res);
-                if (obj.isNull("success") || !obj.getBoolean("success")) {
+                if (obj.has("error") ) {
                     showError(obj );
                 } else
                     listner.onSuccess(res, 0, null);
             }
-        } catch (IOException | JSONException  | IllegalArgumentException e) {
+        } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
             Utils.showSnackBarLongTime(activity, Utils.ERROR_SOMETHING);
             listner.onSuccess("", 2, null);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

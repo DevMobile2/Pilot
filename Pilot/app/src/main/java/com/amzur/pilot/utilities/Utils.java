@@ -20,6 +20,7 @@ import com.amzur.pilot.interfaces.ConformationListener;
 
 /**
  * Created by MRamesh on 11-05-2016.
+ *
  */
 public class Utils {
     public static final String ERROR_SOMETHING="Something went wrong";
@@ -114,15 +115,7 @@ public class Utils {
         }
         Snackbar.make(act.findViewById(android.R.id.content),msg,Snackbar.LENGTH_SHORT).show();
     }
-    public static void showSnackBarOnTop(Activity act,String str)
-    {
-        Snackbar snack = Snackbar.make(act.findViewById(android.R.id.content), str, Snackbar.LENGTH_LONG);
-        View view = snack.getView();
-        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view.getLayoutParams();
-        params.gravity = Gravity.TOP;
-        view.setLayoutParams(params);
-        snack.show();
-    }
+
     public static void showConformationDialog(Activity act, String title, String msg, final ConformationListener cl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
         if(title!=null)

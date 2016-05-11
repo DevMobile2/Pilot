@@ -24,7 +24,7 @@ public class ItemPojo {
 
     public String imageUrl;
 
-    public int serialNumber;
+    public long serialNumber;
 
     public String itemCondition;
 }

@@ -9,15 +9,24 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amzur.pilot.myretrofit.Listener;
+import com.amzur.pilot.myretrofit.RetrofitService;
+import com.amzur.pilot.pojos.ItemPojo;
+import com.amzur.pilot.pojos.JsonParserForAll;
 import com.amzur.pilot.utilities.PreferenceData;
+import com.squareup.okhttp.ResponseBody;
 import com.squareup.picasso.Picasso;
+
+import retrofit.Call;
 
 /**
  * This class displays item details of a selected item.
@@ -38,6 +47,8 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
            goHome();
         }
     };
+    int ITEM_ID=1;
+    ItemPojo item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,50 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
         if (fab != null) {
             fab.setOnClickListener(onClickListener);
         }
+        ITEM_ID=getIntent().getIntExtra("id",1);
+        Log.i("ITEM",ITEM_ID+"");
+        if(ITEM_ID==0)
+        {
+            Toast.makeText(this,"Not a valid thing",Toast.LENGTH_LONG).show();
+            finish();
+        }
+        getItemDetails();
+    }
+
+
+    /**
+     * Get item details*/
+    public void getItemDetails()
+    {
+        Call<ResponseBody> call=MyApplication.getSerivce().getItemDetails(ITEM_ID);
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+                if(pos==0)
+                {
+                    item=new JsonParserForAll().parseItemResponse(result);
+                    if(item!=null)
+                    {
+                        updateUi();
+                    }
+                }
+            }
+        },"getting...",true,this));
+    }
+
+    /**
+     * Update the ui using the response we got from server*/
+    public void updateUi()
+    {
+        ((TextView)findViewById(R.id.tvUnitPrice)).setText(item.unitPrice+"");
+        ((TextView)findViewById(R.id.tvItemName)).setText(item.itemName);
+        ((TextView)findViewById(R.id.tvCategoryName)).setText(item.categoryName);
+        ((TextView)findViewById(R.id.tvDescription)).setText(item.description);
+        ((TextView)findViewById(R.id.tvSpecifications)).setText(item.specifications);
+        ((TextView)findViewById(R.id.tvSeller)).setText(item.seller);
+        ((TextView)findViewById(R.id.tvQuantity)).setText(item.quantity+"");
+        ((TextView)findViewById(R.id.tvCondition)).setText(item.itemCondition);
+        Picasso.with(this).load(item.imageUrl).placeholder(R.drawable.ecommerce_placeholder).error(R.drawable.error_image).into((ImageView) findViewById(R.id.imageview_item));
     }
 
     /**

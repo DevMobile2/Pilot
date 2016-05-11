@@ -20,6 +20,7 @@ public class JsonParserForAll {
     private JsonParser jp = null;
     private ArrayList<Category> categories;
     private ItemsPojo itemsPojo;
+    private ItemPojo item;
 
     public JsonParserForAll()
     {
@@ -54,6 +55,21 @@ public class JsonParserForAll {
     }
 
     /**
+     * Parse the response of item details
+     * @param response response of the item*/
+    public ItemPojo parseItemResponse(String response)
+    {
+        try {
+            jp=jsonFactory.createJsonParser(response);
+            item=objectMapper.readValue(jp,ItemPojo.class);
+            return item;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Get all categories
      * @return  list of categories*/
     public ArrayList<Category> getCategories() {
@@ -75,5 +91,11 @@ public class JsonParserForAll {
         return itemsPojo.items;
         else
             return new ArrayList<>();
+    }
+
+    /**
+     * Get item details*/
+    public ItemPojo getItem() {
+        return item;
     }
 }
