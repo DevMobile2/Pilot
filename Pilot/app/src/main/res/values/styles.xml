@@ -183,6 +183,14 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">@dimen/text_header</item>
+        <item name="android:background">@drawable/login_button</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
 </resources>
 
 

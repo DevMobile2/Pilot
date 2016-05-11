@@ -22,12 +22,12 @@ import com.amzur.pilot.utilities.PreferenceData;
  */
 public class CategoriesActivity extends AppCompatActivity {
     //To display categories.
-    RecyclerView recyclerViewCategories;
+   public RecyclerView rvCategories;
     //Adapter to set data to the recyclerview;
-    CategoriesAdapter categoriesAdapter;
+   public  CategoriesAdapter categoriesAdapter;
     //flag used to quit the application on clicking back button twice.
     boolean doubleBackToExitPressedOnce = false;
-    SwipeRefreshLayout refreshLayout;
+  public  SwipeRefreshLayout refreshLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +50,8 @@ public class CategoriesActivity extends AppCompatActivity {
         else if(width>1200)
             number_of_columns=3;
         StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(number_of_columns,1);
-        recyclerViewCategories.setLayoutManager(staggeredGridLayoutManager);
-        recyclerViewCategories.setAdapter(categoriesAdapter);
+        rvCategories.setLayoutManager(staggeredGridLayoutManager);
+        rvCategories.setAdapter(categoriesAdapter);
 
 
     }
@@ -59,8 +59,8 @@ public class CategoriesActivity extends AppCompatActivity {
     /**
      * This method initializes all the ui elements in the xml files.
      */
-    private void initializeUIComponents() {
-        recyclerViewCategories= (RecyclerView) findViewById(R.id.rvCategories);
+    public void initializeUIComponents() {
+        rvCategories= (RecyclerView) findViewById(R.id.rvCategories);
         refreshLayout=(SwipeRefreshLayout)findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

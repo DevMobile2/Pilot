@@ -98,4 +98,6 @@ public class PreferenceData {
         activity.getWindowManager().getDefaultDisplay().getSize(size);
         return size.x;
     }
+
+
 }

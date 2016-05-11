@@ -9,7 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.amzur.pilot.MainActivity">
 
+ <Button
+     android:id="@+id/btFacebookLogin"
+     android:layout_centerInParent="true"
+     android:drawableLeft="@drawable/ic_facebook_white_36dp"
+     android:layout_gravity="center_horizontal"
+     android:background="@drawable/login_button"
+     android:textColor="@color/white"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:text="Log in with Facebook"/>
     <com.facebook.login.widget.LoginButton
+        android:visibility="gone"
+        style="@style/FacebookLoginButton"
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
