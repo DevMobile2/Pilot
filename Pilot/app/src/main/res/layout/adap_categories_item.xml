@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.CardView
         android:id="@+id/cvCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,10 +16,13 @@
                 android:singleLine="true"
                 android:id="@+id/textview_category_name"
                 android:padding="@dimen/view_margin"
-                style="@style/textview_header"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mobiles" />
+                style="@style/textview_header"
+                android:text="@string/app_name"
+                android:textSize="@dimen/text_header"
+                 />
 
             <ImageView
                 android:scaleType="fitXY"
@@ -32,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cardview_categories_height"
                 android:layout_marginTop="@dimen/view_margin"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/mobiles" />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+</android.support.v7.widget.CardView>

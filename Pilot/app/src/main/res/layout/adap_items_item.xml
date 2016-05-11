@@ -58,6 +58,7 @@
                     android:layout_width="wrap_content"
                     android:id="@+id/menu_layout"
                     android:padding="@dimen/view_margin_10"
+                    android:visibility="gone"
                     android:layout_height="wrap_content">
 
                     <Button
