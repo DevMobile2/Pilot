@@ -34,9 +34,6 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            progressDialog = new ProgressDialog(MainActivity.this);
-            progressDialog.setMessage("Loading...");
-            progressDialog.show();
 
             loginButton.performClick();
 
@@ -82,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
 
     @Override
     public void onSuccess(LoginResult loginResult) {
+        facebookLoginButton.setVisibility(View.GONE);
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {

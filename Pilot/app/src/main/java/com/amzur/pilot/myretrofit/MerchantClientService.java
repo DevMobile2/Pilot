@@ -11,7 +11,7 @@ import retrofit.http.GET;
  *
  */
 public interface MerchantClientService {
-    @GET("/categories")
-    Call<ResponseBody> getCategories();
+    @GET("/categories/1")
+    Call<ResponseBody> getItems();
 
 }

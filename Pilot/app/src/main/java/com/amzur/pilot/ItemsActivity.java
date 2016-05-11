@@ -1,5 +1,6 @@
 package com.amzur.pilot;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,11 +8,26 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.amzur.pilot.adapters.ItemsAdapter;
+import com.amzur.pilot.myretrofit.Listener;
+import com.amzur.pilot.myretrofit.RetrofitService;
 import com.amzur.pilot.utilities.PreferenceData;
+import com.squareup.okhttp.ResponseBody;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import retrofit.Call;
 
 
 /**
@@ -40,6 +56,7 @@ public class ItemsActivity extends AppCompatActivity {
         }
         initViews();
         setTitle(categoryName);
+        getItems();
         setAdapterToRecyclerView();
     }
 
@@ -88,5 +105,60 @@ public class ItemsActivity extends AppCompatActivity {
         if(item.getItemId()==android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    /**
+     * This method gets items data from the server.
+     */
+    public void getItems(){
+        Call<ResponseBody> call=MyApplication.getSerivce().getItems();
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+                if(pos==0){
+                    Log.i("result",result);
+                }
+            }
+        },"Loading",false,ItemsActivity.this));
+    }
+
+    private InputStream openHttpConnection(String urlStr) {
+        InputStream in = null;
+        int resCode = -1;
+
+        try {
+            URL url = new URL(urlStr);
+            URLConnection urlConn = url.openConnection();
+
+            if (!(urlConn instanceof HttpURLConnection)) {
+                throw new IOException("URL is not an Http URL");
+            }
+            HttpURLConnection httpConn = (HttpURLConnection) urlConn;
+            httpConn.setAllowUserInteraction(false);
+            httpConn.setInstanceFollowRedirects(true);
+            httpConn.setRequestMethod("GET");
+            httpConn.connect();
+            resCode = httpConn.getResponseCode();
+
+            if (resCode == HttpURLConnection.HTTP_OK) {
+                in = httpConn.getInputStream();
+             Log.i("result",in.toString());
+            }
+        }
+
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return in;
     }
 }
