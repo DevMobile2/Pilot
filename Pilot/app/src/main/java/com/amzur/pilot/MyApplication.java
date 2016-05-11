@@ -55,8 +55,8 @@ public class MyApplication extends Application {
                     Request original = chain.request();
 
                     Request request = original.newBuilder()
-                            .header("device-type", "ANDROID")
-                            .header("device-id", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID))
+                          //  .header("device-type", "ANDROID")
+                           // .header("device-id", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID))
                            // .header("authentication-token", PreferencesData.getToken(MyApplication.getInstance()))
                             //.header("refresh_token",PreferencesData.getString(MyApplication.getInstance(),PreferencesData.PREF_REFRESH_TOKEN))
                             .method(original.method(), original.body())

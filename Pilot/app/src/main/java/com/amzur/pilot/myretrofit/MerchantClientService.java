@@ -13,6 +13,7 @@ import retrofit.http.Path;
  *
  */
 public interface MerchantClientService {
+
     @GET("merchant-rest-service/categories/{id}")
     Call<ResponseBody> getCategories(@Path("id") int id);
 
@@ -21,5 +22,6 @@ public interface MerchantClientService {
 
     @POST("merchant-rest-service/buy/{id}")
     Call<ResponseBody> buyItem(@Path("id") int id);
+
 
 }

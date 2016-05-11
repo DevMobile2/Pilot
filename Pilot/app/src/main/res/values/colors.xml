@@ -159,6 +159,7 @@
     <color name="main_color_gray">#ff7d7d7d</color>
     <color name="gray_light">#ffe8e8e8</color>
     <color name="indigo">#3F51B5</color>
+    <color name="facebook_button_color">#123B91</color>
 
 </resources>
 
