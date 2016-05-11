@@ -18,7 +18,7 @@ import com.amzur.pilot.utilities.PreferenceData;
 
 /**
  * This Activity displays list of categories.
- * Created by MRamesh on 06-05-2016.
+ * Created by KRamesh on 06-05-2016.
  */
 public class CategoriesActivity extends AppCompatActivity {
     //To display categories.
