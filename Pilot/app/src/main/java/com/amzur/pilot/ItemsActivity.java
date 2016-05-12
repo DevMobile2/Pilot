@@ -117,7 +117,7 @@ public class ItemsActivity extends AppCompatActivity {
      * This method gets items data from the server.
      */
     public void getItems(){
-        Call<ResponseBody> call=MyApplication.getSerivce().getItems();
+        Call<ResponseBody> call=MyApplication.getSerivce().getItems(2);
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {

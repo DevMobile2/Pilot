@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "955958891860",
+    "project_id": "pilot-10c19"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955958891860:android:7c3c7c3d3953756c",
+        "android_client_info": {
+          "package_name": "com.amzur.pilot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5nPSpTt9F9RwKdRbYORRIe0B6VVM2ZDw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

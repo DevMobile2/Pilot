@@ -15,7 +15,7 @@ import retrofit.http.Path;
 public interface MerchantClientService {
 
     @GET("merchant-rest-service/categories/{id}")
-    Call<ResponseBody> getCategories(@Path("id") int id);
+    Call<ResponseBody> getItems(@Path("id") int id);
 
     @GET("merchant-rest-service/items/{id}")
     Call<ResponseBody> getItemDetails(@Path("id") int id);

@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.amzur.pilot.notifications.RegistrationIntentService;
 import com.amzur.pilot.utilities.PreferenceData;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -19,6 +21,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.json.JSONObject;
 
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
     AccessTokenTracker accessTokenTracker;
     Button facebookLoginButton;
     LoginButton loginButton;
-    ProgressDialog progressDialog;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         facebookLoginButton = (Button) findViewById(R.id.btFacebookLogin);
+        facebookLoginButton.setTransformationMethod(null);
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
         facebookLoginButton.setOnClickListener(onClickListener);
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.i("facebook",object.toString());
                         PreferenceData.putLoginStatus(MainActivity.this, true);
                         Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
                         startActivity(intent);
@@ -111,12 +117,34 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
     @Override
     protected void onResume() {
         super.onResume();
+        if (checkPlayServices()) {
+            startService(new Intent(this, RegistrationIntentService.class));
+
+        } else {
+            Log.i("GCM", "No valid Google Play Services APK found.");
+        }
         if (PreferenceData.isLogin(MainActivity.this)) {
             Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
             startActivity(intent);
         }
     }
-
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        if (apiAvailability != null) {
+            int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+            if (resultCode != ConnectionResult.SUCCESS) {
+                if (apiAvailability.isUserResolvableError(resultCode)) {
+                    apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                            .show();
+                } else {
+                    Log.i("GCM", "This device is not supported.");
+                    finish();
+                }
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
 

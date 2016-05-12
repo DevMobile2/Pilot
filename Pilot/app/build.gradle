@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'pilot'
             keyPassword 'android'
-            storeFile file('C:\\Users\\RameshK\\Documents\\GitHub\\Pilot\\pilot.keystore')
+            storeFile file('D:\\AmzurProjects\\Pilot_demo\\Pilot\\pilot.keystore')
             //D:/AmzurProjects/Pilot_demo/Pilot
             storePassword 'android'
         }
@@ -35,6 +35,7 @@ android {
 }
 def androidSupportVer = '23.2.1'
 def retrofitVersion = '2.0.0-beta2'
+def playVersion='8.4.0'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -53,4 +54,6 @@ dependencies {
     compile "com.squareup.retrofit:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit:converter-gson:$retrofitVersion"
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+
+    compile "com.google.android.gms:play-services-gcm:$playVersion"
 }
