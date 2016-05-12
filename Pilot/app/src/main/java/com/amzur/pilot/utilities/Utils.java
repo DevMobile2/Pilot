@@ -24,6 +24,8 @@ import com.amzur.pilot.interfaces.ConformationListener;
  */
 public class Utils {
     public static final String ERROR_SOMETHING="Something went wrong";
+    public static final String PROJECT_ID = "955958891860";
+
     public interface ErrorAlertCompleted {
         void OkaySelected();
     }

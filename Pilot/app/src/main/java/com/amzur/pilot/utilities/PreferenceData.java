@@ -3,8 +3,13 @@ package com.amzur.pilot.utilities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
+
 import android.widget.Toast;
+
+import android.util.Log;
 
 import com.amzur.pilot.MyApplication;
 import com.amzur.pilot.myretrofit.Listener;
@@ -23,7 +28,13 @@ public class PreferenceData {
     public static final String SHARED_PREF="credentials";
     private static SharedPreferences.Editor editor;
     public static final String PREF_LOGIN="login";
+
     public static final String PREF_API_KEY="api_key";
+
+    static final String TAG = "Splash Screen";
+    public static final String PROPERTY_REG_ID = "registration_id";
+    private static final String PROPERTY_APP_VERSION = "appVersion";
+
 
     /**
      * This method puts the login status as true after sign in and login status as false after sign out.
@@ -126,5 +137,46 @@ public class PreferenceData {
         return size.x;
     }
 
+
+    public static String getRegistrationId(Context con) {
+        if(preferences==null)
+            preferences=con.getSharedPreferences(SHARED_PREF, 0);
+        String registrationId = preferences.getString(PROPERTY_REG_ID, "");
+        //Log.i(TAG, registrationId);
+        if (registrationId.isEmpty()) {
+            Log.i(TAG, "Registration not found.");
+            return "";
+        }
+        // Check if app was updated; if so, it must clear the registration ID
+        // since the existing regID is not guaranteed to work with the new
+        // app version.
+        int registeredVersion = preferences.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int currentVersion = getAppVersion(con);
+        if (registeredVersion != currentVersion) {
+            Log.i(TAG, "App version changed.");
+            return "";
+        }
+        return registrationId;
+    }
+    public static void storeRegistrationId(Context context, String regId) {
+        if(preferences==null)
+            preferences=context.getSharedPreferences(SHARED_PREF, 0);
+        int appVersion = getAppVersion(context);
+        Log.i(TAG, "Saving regId on app version " + appVersion);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PROPERTY_REG_ID, regId);
+        editor.putInt(PROPERTY_APP_VERSION, appVersion);
+        editor.apply();
+    }
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // should never happen
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
 
 }
