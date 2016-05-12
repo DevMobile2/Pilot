@@ -4,17 +4,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.widget.Toast;
 
+import com.amzur.pilot.MyApplication;
+import com.amzur.pilot.myretrofit.Listener;
+import com.amzur.pilot.myretrofit.RetrofitService;
 import com.facebook.login.LoginManager;
+import com.squareup.okhttp.ResponseBody;
+
+import retrofit.Call;
 
 /**
  * Created by MRamesh on 09-05-2016.
+ *
  */
 public class PreferenceData {
     private static SharedPreferences preferences;
     public static final String SHARED_PREF="credentials";
     private static SharedPreferences.Editor editor;
     public static final String PREF_LOGIN="login";
+    public static final String PREF_API_KEY="api_key";
 
     /**
      * This method puts the login status as true after sign in and login status as false after sign out.
@@ -35,7 +44,7 @@ public class PreferenceData {
      * @param val value to be stored in the SharedPreferences.
      * @param key key for the value that is stored in the SharedPreference.
      */
-    public static void putString( String val,String key) {
+    public static void putString( String key,String val) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putString(key, val);
 
@@ -73,8 +82,26 @@ public class PreferenceData {
      * @param activity context of the activity from which this method is called.
      */
     public static void signOut(Activity activity){
-        PreferenceData.putLoginStatus(activity,false);
-        LoginManager.getInstance().logOut();
+        signOutFromSession(activity,10);
+    }
+
+    /**
+     * Deletes the session from backend of this user and API_KEY get invalid now*/
+    public static void signOutFromSession(final Activity activity, long id)
+    {
+        Call<ResponseBody> call= MyApplication.getSerivce().authLogout(id);
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+                if(pos==0)
+                {
+                    Toast.makeText(activity,"Successfully logged out",Toast.LENGTH_LONG).show();
+                    PreferenceData.putLoginStatus(activity,false);
+                    LoginManager.getInstance().logOut();
+                }
+            }
+        },"singing out...",true,activity));
+
     }
 
     /**

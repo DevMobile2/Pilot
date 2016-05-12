@@ -3,6 +3,7 @@ package com.amzur.pilot;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.amzur.pilot.adapters.CategoriesAdapter;
+import com.amzur.pilot.customviews.EndlessRecyclerViewScrollListener;
+import com.amzur.pilot.myretrofit.Listener;
+import com.amzur.pilot.myretrofit.RetrofitService;
 import com.amzur.pilot.utilities.PreferenceData;
+import com.squareup.okhttp.ResponseBody;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import retrofit.Call;
 
 /**
  * This Activity displays list of categories.
@@ -34,6 +44,7 @@ public class CategoriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_categories);
         initializeUIComponents();
         setAdapterToRecyclerView();
+        doLogin();
     }
 
     /**
@@ -41,19 +52,53 @@ public class CategoriesActivity extends AppCompatActivity {
      */
 
     private void setAdapterToRecyclerView() {
-        int number_of_columns=1;
+
         categoriesAdapter=new CategoriesAdapter(CategoriesActivity.this);
-        int width=PreferenceData.getScreenWidth(CategoriesActivity.this);
-        Log.i("screen width", String.valueOf(width));
-        if(width>500 && width <1200)
-            number_of_columns=2;
-        else if(width>1200)
-            number_of_columns=3;
-        StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(number_of_columns,1);
-        rvCategories.setLayoutManager(staggeredGridLayoutManager);
+
         rvCategories.setAdapter(categoriesAdapter);
 
 
+    }
+
+
+
+    /**
+     * Get categories for the user*/
+    public void getCategories(int page)
+    {
+        Call<ResponseBody> call=MyApplication.getSerivce().getCategories();
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+              if(pos==0)
+              {
+
+              }
+            }
+        },null,true,this));
+    }
+
+    public void doLogin()
+    {
+        JSONObject loginObject=new JSONObject();
+        try {
+            loginObject.put("email","ramesh.korada@gmail.com");
+            loginObject.put("deviceId", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID));
+            loginObject.put("deviceType","ANDROID");
+            loginObject.put("deviceToken","ljkjbflksjdflkjsjdfkjdsbnfkjskfjbskldbfksb");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<ResponseBody> call=MyApplication.getSerivce().authLogin(loginObject.toString(),"application/json");
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+                if(pos==0)
+                {
+                    PreferenceData.putString(PreferenceData.PREF_API_KEY,result);
+                }
+            }
+        },"",true,CategoriesActivity.this));
     }
 
     /**
@@ -69,6 +114,24 @@ public class CategoriesActivity extends AppCompatActivity {
             }
         });
         setTitle("Categories");
+
+        int number_of_columns=1;
+        int width=PreferenceData.getScreenWidth(CategoriesActivity.this);
+        Log.i("screen width", String.valueOf(width));
+        if(width>500 && width <1200)
+            number_of_columns=2;
+        else if(width>1200)
+            number_of_columns=3;
+        StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(number_of_columns,1);
+        rvCategories.setLayoutManager(staggeredGridLayoutManager);
+        rvCategories.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                getCategories(page);
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,8 +141,9 @@ public class CategoriesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.button)
+        if(item.getItemId()==R.id.button) {
             PreferenceData.signOut(CategoriesActivity.this);
+        }
         return super.onOptionsItemSelected(item);
     }
 

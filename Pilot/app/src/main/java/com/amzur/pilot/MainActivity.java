@@ -4,10 +4,14 @@ package com.amzur.pilot;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.amzur.pilot.myretrofit.Listener;
+import com.amzur.pilot.myretrofit.RetrofitService;
 import com.amzur.pilot.utilities.PreferenceData;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -19,8 +23,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.squareup.okhttp.ResponseBody;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import retrofit.Call;
 
 /**
  * This class provides facebook login for the user.
@@ -85,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
+
+                        Log.i("FB Response",object.toString());
+
                         PreferenceData.putLoginStatus(MainActivity.this, true);
                         Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
                         startActivity(intent);

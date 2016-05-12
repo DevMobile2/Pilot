@@ -2,16 +2,15 @@ package com.amzur.pilot.myretrofit;
 
 import android.app.Activity;
 
-
 import com.amzur.pilot.dialog.CustomDialog;
 import com.amzur.pilot.utilities.Utils;
 import com.squareup.okhttp.ResponseBody;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 import retrofit.Callback;
 import retrofit.Response;
@@ -19,10 +18,10 @@ import retrofit.Retrofit;
 
 /**
  * Created by RameshK on 25-11-2015.
+ *
  */
 public class Listener implements Callback<ResponseBody> {
 
-    Type tt;
     RetrofitService listner;
     CustomDialog dialog;
     Activity activity;
@@ -46,15 +45,18 @@ public class Listener implements Callback<ResponseBody> {
         try {
             if(dialog!=null && dialog.isShowing())
             dialog.dismiss();
-            if (!response.isSuccess()) {
+             if (!response.isSuccess()) {
+
                 Utils.showSnackBarLongTime(activity, Utils.ERROR_SOMETHING);
                 listner.onSuccess(response.message(), 2, null);
             } else {
                 String res = response.body().string();
-                JSONObject obj = new JSONObject(res);
-                if (obj.has("error") ) {
-                    showError(obj );
-                } else
+                 if(isJSONValid(res)) {
+                     JSONObject obj = new JSONObject(res);
+                     if (obj.has("error")) {
+                         showError(obj);
+                     }
+                 }else
                     listner.onSuccess(res, 0, null);
             }
         } catch (IOException | IllegalArgumentException e) {
@@ -89,5 +91,19 @@ public class Listener implements Callback<ResponseBody> {
         dialog.dismiss();
         listner.onSuccess("", 1, t);
 
+    }
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 }
