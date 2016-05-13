@@ -4,166 +4,214 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.amzur.pilot.ViewItemDetailsActivity"
-    tools:showIn="@layout/activity_view_item_details"
-    android:background="@color/white">
+    tools:showIn="@layout/activity_view_item_details">
 
-  <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/view_margin_10"
-      >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_margin_10">
+
         <LinearLayout
+            android:id="@+id/priceBuyContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:id="@+id/priceBuyContainer">
+            android:weightSum="2">
+
             <TextView
+                android:id="@+id/tvUnitPrice"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/tvUnitPrice"/>
+                android:layout_weight="1" />
+
             <Button
+                android:id="@+id/btBuy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/btBuy"
-                android:text="@string/buy"
                 android:layout_weight="1"
                 android:background="@drawable/buy_button"
-                android:padding="@dimen/view_margin_10"
                 android:gravity="center"
-                android:textColor="@color/dark_grey"
-                />
+                android:onClick="buyClick"
+                android:padding="@dimen/view_margin_10"
+                android:text="@string/buy"
+                android:textColor="@color/dark_grey" />
         </LinearLayout>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvItemNameHeader"
-          android:text="@string/item_name"
-          android:layout_below="@+id/priceBuyContainer"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_toRightOf="@+id/tvItemNameHeader"
-          android:id="@+id/tvItemName"
-          android:layout_alignTop="@+id/tvItemNameHeader"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvItemNameHeader"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvItemCategoryHeader"
-          android:text="@string/category_name"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvItemName"
-          android:layout_toRightOf="@+id/tvItemCategoryHeader"
-          android:id="@+id/tvCategoryName"
 
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvItemCategoryHeader"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvDescHeader"
-          android:text="@string/Description"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvCategoryName"
-          android:layout_toRightOf="@+id/tvItemNameHeader"
-          android:id="@+id/tvDescription"
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/priceBuyContainer">
 
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvDescHeader"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvSpecHeader"
-          android:text="@string/specifications"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvDescription"
-          android:layout_toRightOf="@+id/tvSpecHeader"
-          android:id="@+id/tvSpecifications"
+            <TableRow
+                android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin"
+                >
 
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvSpecHeader"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvSellerHeader"
-          android:text="@string/seller"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvSpecifications"
-          android:layout_toRightOf="@+id/tvSellerHeader"
-          android:id="@+id/tvSeller"
+                <TextView
+                    android:id="@+id/tvItemNameHeader"
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvSellerHeader"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvQuantityHeader"
-          android:text="@string/quantity"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvSeller"
-          android:layout_toRightOf="@+id/tvQuantityHeader"
-          android:id="@+id/tvQuantity"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/item_name" />
 
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
+                <TextView
+                    android:id="@+id/tvItemName"
 
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvQuantityHeader"
-          android:layout_marginRight="@dimen/view_margin_20"
-          android:id="@+id/tvConditionHeader"
-          android:text="@string/item_condition"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header"/>
-      <TextView
-          android:layout_marginTop="@dimen/view_margin_10"
-          android:layout_below="@+id/tvQuantity"
-          android:layout_toRightOf="@+id/tvConditionHeader"
-          android:id="@+id/tvCondition"
+                    style="@style/textview_header_normal"
 
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          style="@style/textview_header_normal"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
 
-  </RelativeLayout>
+            <TableRow android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin"
+                >
+
+                <TextView
+                    android:id="@+id/tvItemCategoryHeader"
+
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/category_name" />
+
+                <TextView
+                    android:id="@+id/tvCategoryName"
+
+                    style="@style/textview_header_normal"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
+
+            <TableRow android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin">
+
+                <TextView
+                    android:id="@+id/tvDescHeader"
+
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/Description" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+
+                    style="@style/textview_header_normal"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
+
+            <TableRow android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin">
+
+                <TextView
+                    android:id="@+id/tvSpecHeader"
+
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/specifications" />
+
+                <TextView
+                    android:id="@+id/tvSpecifications"
+
+                    style="@style/textview_header_normal"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
+
+            <TableRow android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin">
+
+                <TextView
+                    android:id="@+id/tvSellerHeader"
+
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/seller" />
+
+                <TextView
+                    android:id="@+id/tvSeller"
+
+                    style="@style/textview_header_normal"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
+
+            <TableRow android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin">
+
+                <TextView
+                    android:id="@+id/tvQuantityHeader"
+
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/quantity" />
+
+                <TextView
+                    android:id="@+id/tvQuantity"
+
+                    style="@style/textview_header_normal"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
+
+            <TableRow android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin">
+
+                <TextView
+                    android:id="@+id/tvConditionHeader"
+
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/item_condition" />
+
+                <TextView
+                    android:id="@+id/tvCondition"
+
+
+                    style="@style/textview_header_normal"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
+        </TableLayout>
+
+
+    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>
