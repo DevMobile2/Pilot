@@ -55,9 +55,9 @@ public class Listener implements Callback<ResponseBody> {
                      JSONObject obj = new JSONObject(res);
                      if (obj.has("error")) {
                          showError(obj);
-                     }
-                 }else
-                    listner.onSuccess(res, 0, null);
+                     }else
+                         listner.onSuccess(res, 0, null);
+                 }else listner.onSuccess(res,4,null);
             }
         } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();

@@ -18,7 +18,7 @@ public class JsonParserForAll {
     private ObjectMapper objectMapper = null;
     private JsonFactory jsonFactory = null;
     private JsonParser jp = null;
-    private ArrayList<Category> categories;
+    private Categories categories;
     private ItemsPojo itemsPojo;
     private ItemPojo item;
 
@@ -31,27 +31,32 @@ public class JsonParserForAll {
     /**
      * Parse the response of categories into list of categories
      * @param  response response got from the server*/
-    public void parseResponseToCategories(String response)
+    public Categories parseResponseToCategories(String response)
     {
         try {
             jp=jsonFactory.createJsonParser(response);
-            categories=objectMapper.readValue(jp, TypeFactory.defaultInstance().constructCollectionType(ArrayList.class,Category.class));
+            //TypeFactory.defaultInstance().constructCollectionType(ArrayList.class,Category.class)
+            categories=objectMapper.readValue(jp, Categories.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return categories;
     }
 
     /**
      * Parse the response of categories into list of categories
      * @param  response response got from the server*/
-    public void parseResponseToItems(String response)
+    public ItemsPojo parseResponseToItems(String response)
     {
         try {
             jp=jsonFactory.createJsonParser(response);
+
             itemsPojo=objectMapper.readValue(jp, ItemsPojo.class);
+            return itemsPojo;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -73,7 +78,7 @@ public class JsonParserForAll {
      * Get all categories
      * @return  list of categories*/
     public ArrayList<Category> getCategories() {
-        return categories;
+        return categories.Categories;
     }
 
     /**
@@ -88,7 +93,7 @@ public class JsonParserForAll {
     public List<ItemPojo> getItems()
     {
         if(itemsPojo!=null)
-        return itemsPojo.items;
+        return itemsPojo.Items;
         else
             return new ArrayList<>();
     }

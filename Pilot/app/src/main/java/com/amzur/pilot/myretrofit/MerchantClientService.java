@@ -21,7 +21,7 @@ public interface MerchantClientService {
     Call<ResponseBody> authLogin(@Body String body, @Header("Content-type")String content);
 
     @POST("merchant-rest-service/auth/logout")
-    Call<ResponseBody> authLogout(@Query("user_id") long id);
+    Call<ResponseBody> authLogout();
 
     @GET("merchant-rest-service/categories")
     Call<ResponseBody> getCategories();

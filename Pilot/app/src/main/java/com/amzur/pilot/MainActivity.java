@@ -3,11 +3,14 @@ package com.amzur.pilot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.amzur.pilot.myretrofit.Listener;
+import com.amzur.pilot.myretrofit.RetrofitService;
 import com.amzur.pilot.notifications.RegistrationIntentService;
 import com.amzur.pilot.utilities.PreferenceData;
 import com.facebook.AccessToken;
@@ -22,8 +25,14 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.squareup.okhttp.ResponseBody;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Arrays;
+
+import retrofit.Call;
 
 /**
  * This class provides facebook login for the user.
@@ -58,10 +67,13 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         facebookLoginButton = (Button) findViewById(R.id.btFacebookLogin);
-        facebookLoginButton.setTransformationMethod(null);
+        if (facebookLoginButton != null) {
+            facebookLoginButton.setTransformationMethod(null);
+        }
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
         facebookLoginButton.setOnClickListener(onClickListener);
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken accessToken, AccessToken accessToken2) {
@@ -83,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
 
     @Override
     public void onSuccess(LoginResult loginResult) {
-        facebookLoginButton.setVisibility(View.GONE);
+
+
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -91,17 +104,54 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
                     public void onCompleted(JSONObject object, GraphResponse response) {
 
                         Log.i("FB Response",object.toString());
+                        try {
+                            doLogin(object.getString("email"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        //Bundle bFacebookData = getFacebookData(object);
 
-                        PreferenceData.putLoginStatus(MainActivity.this, true);
-                        Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
-                        startActivity(intent);
 
                     }
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email,gender,birthday");
+        parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location");
         request.setParameters(parameters);
         request.executeAsync();
+
+    }
+
+    public void doLogin(String email)
+    {
+        JSONObject loginObject=new JSONObject();
+        try {
+            loginObject.put("email",email);
+            loginObject.put("deviceId", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID));
+            loginObject.put("deviceType","ANDROID");
+            loginObject.put("deviceToken",PreferenceData.getRegistrationId(this));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<ResponseBody> call=MyApplication.getSerivce().authLogin(loginObject.toString(),"application/json");
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+                if(pos==0)
+                {
+                    try {
+                        facebookLoginButton.setVisibility(View.GONE);
+                        JSONObject object=new JSONObject(result);
+                        PreferenceData.putString(PreferenceData.PREF_API_KEY,object.getString("api_key"));
+                        PreferenceData.putLoginStatus(MainActivity.this, true);
+                        Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        },"connecting...",true,MainActivity.this));
     }
 
     @Override

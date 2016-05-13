@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +25,9 @@ import com.amzur.pilot.pojos.JsonParserForAll;
 import com.amzur.pilot.utilities.PreferenceData;
 import com.squareup.okhttp.ResponseBody;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit.Call;
 
@@ -62,16 +65,40 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
         if (fab != null) {
             fab.setOnClickListener(onClickListener);
         }
-        ITEM_ID=getIntent().getIntExtra("id",1);
+
         Log.i("ITEM",ITEM_ID+"");
         if(ITEM_ID==0)
         {
             Toast.makeText(this,"Not a valid thing",Toast.LENGTH_LONG).show();
             finish();
-        }
+        }else
         getItemDetails();
     }
 
+
+    /**
+     * on buy pressed performs buy operation*
+     */
+     public void buyClick(View v)
+     {
+         Call<ResponseBody> call=MyApplication.getSerivce().buyItem(ITEM_ID);
+         call.enqueue(new Listener(new RetrofitService() {
+             @Override
+             public void onSuccess(String result, int pos, Throwable t) {
+
+                 if(pos==0)
+                 {
+                     try {
+                         JSONObject object=new JSONObject(result);
+                         item.quantity=object.getInt("quantity");
+                         updateUi();
+                     } catch (JSONException e) {
+                         e.printStackTrace();
+                     }
+                 }
+             }
+         },"buying...",true,this));
+     }
 
     /**
      * Get item details*/
@@ -86,7 +113,7 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
                     item=new JsonParserForAll().parseItemResponse(result);
                     if(item!=null)
                     {
-                        updateUi();
+                        checkItemsQuantity();
                     }
                 }
             }
@@ -103,11 +130,22 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.tvDescription)).setText(item.description);
         ((TextView)findViewById(R.id.tvSpecifications)).setText(item.specifications);
         ((TextView)findViewById(R.id.tvSeller)).setText(item.seller);
-        ((TextView)findViewById(R.id.tvQuantity)).setText(item.quantity+"");
+
         ((TextView)findViewById(R.id.tvCondition)).setText(item.itemCondition);
+
         Picasso.with(this).load(item.imageUrl).placeholder(R.drawable.ecommerce_placeholder).error(R.drawable.error_image).into((ImageView) findViewById(R.id.imageview_item));
     }
 
+    public void checkItemsQuantity()
+    {
+        ((TextView)findViewById(R.id.tvQuantity)).setText(item.quantity+"");
+        if(item.quantity<1)
+        {
+            Button buy= (Button) findViewById(R.id.btBuy);
+            buy.setText("SOLD OUT");
+            buy.setEnabled(false);
+        }
+    }
     /**
      * This method initializes all the ui elements.
      */
@@ -131,9 +169,9 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
     public void getDataFromPreviousActivity() {
         Bundle b = getIntent().getBundleExtra("itemDetails");
         if (b != null) {
-            if (b.getInt("imageId") != 0)
+
                 Picasso.with(this)
-                .load(b.getInt("imageId"))
+                .load(b.getString("imageUrl"))
                 .placeholder(R.drawable.ecommerce_placeholder)
                 .error(R.drawable.error_image)
                 .into(ivItem);
@@ -142,6 +180,7 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
                 collapsingToolbarLayout.setTitle(b.getString("companyName"));
                 collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(ViewItemDetailsActivity.this, R.color.blue_app));
             }
+            ITEM_ID=b.getInt("id",0);
         }
     }
 

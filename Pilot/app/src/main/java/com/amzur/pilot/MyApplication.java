@@ -6,6 +6,7 @@ import android.provider.Settings;
 
 import com.amzur.pilot.myretrofit.GsonStringConverterFactory;
 import com.amzur.pilot.myretrofit.MerchantClientService;
+import com.amzur.pilot.utilities.PreferenceData;
 import com.amzur.pilot.utilities.UtilsServer;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -57,8 +58,7 @@ public class MyApplication extends Application {
                     Request request = original.newBuilder()
                           //  .header("device-type", "ANDROID")
                            // .header("device-id", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID))
-                           // .header("authentication-token", PreferencesData.getToken(MyApplication.getInstance()))
-                            //.header("refresh_token",PreferencesData.getString(MyApplication.getInstance(),PreferencesData.PREF_REFRESH_TOKEN))
+                            .header("api_key", PreferenceData.getString(PreferenceData.PREF_API_KEY))
                             .method(original.method(), original.body())
 
                             .build();

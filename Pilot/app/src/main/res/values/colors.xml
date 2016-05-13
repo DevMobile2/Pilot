@@ -131,6 +131,13 @@
     <color name="transparent_light">#99000000</color>
     <color name="dark_white">#f4f4f4</color>
     <color  name="blue_app">#00AEEE</color>
+
+    <color name="primary">#6da226</color>
+
+    <color name="colorPrimaryDark">#4da226</color>
+
+    <color name="accent">#8ea286</color>
+
     <color name="segmnet_selector">#009DD9</color>
     <color name="category_color">#009999</color>
     

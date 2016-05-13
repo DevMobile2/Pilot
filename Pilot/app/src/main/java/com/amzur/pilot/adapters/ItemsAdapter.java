@@ -19,6 +19,7 @@ import com.amzur.pilot.pojos.ItemPojo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MRamesh on 06-05-2016.
@@ -30,21 +31,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
     //name of the category to display items in recycler view.
     String categoryName;
     //static image ids to display items in the categories.
-    int[] ITEM_IDS = new int[]{R.drawable.mobiles, R.drawable.laptops, R.drawable.mobiles, R.drawable.laptops,112131313, R.drawable.laptops};
-    //static item names.
-    String[] ITEM_NAMES = new String[]{"Mobiles", "Laptops", "Clothing & Accessories", "Furniture", "Jewelery", "Books"};
-    //static item costs.
-    String[] ITEM_COSTS = new String[]{"RS 10000", " RS15000", "RS 12000", "RS 13000", "RS 14000", "RS 15000"};
+
 
     ArrayList<ItemPojo> items;
 
     public ItemsAdapter(Activity activity, String categoryName) {
         this.activity = activity;
         this.categoryName = categoryName;
-
+        items=new ArrayList<>();
     }
 
-    public void addItems(ArrayList<ItemPojo> newItems)
+    public void addItems(List<ItemPojo> newItems)
     {
         items.addAll(newItems);
         notifyDataSetChanged();
@@ -58,34 +55,35 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
 
     @Override
     public void onBindViewHolder(SelectedCategoryViewHolder holder, final int position) {
-        if (categoryName.equals("mobiles")) {
 
-            holder.tvCompanyName.setText(ITEM_NAMES[position]);
-            Picasso.with(activity)
-                    .load(ITEM_IDS[position])
-                    .placeholder(R.drawable.ecommerce_placeholder)
-                    .error(R.drawable.error_image).
-                    into(holder.ivItem);
+        ItemPojo item=items.get(position);
+           if(item!=null) {
+               holder.tvCompanyName.setText(item.itemName);
+               Picasso.with(activity)
+                       .load(item.imageUrl)
+                       .placeholder(R.drawable.ecommerce_placeholder)
+                       .error(R.drawable.error_image).
+                       into(holder.ivItem);
 
-            if(position==3) {
-                holder.menu.setVisibility(View.GONE);
-                holder.tvSoldOut.setVisibility(View.VISIBLE);
-            }
-            else {
-                holder.menu.setVisibility(View.VISIBLE);
-                holder.tvSoldOut.setVisibility(View.GONE);
-            }
-        }
-        holder.ivItem.setTag(position);
-        holder.ivItem.setOnClickListener(onClickListener);
-        holder.menu.setOnClickListener(onClickListener);
-        holder.options.setOnClickListener(onClickListener);
+               if (item.quantity == 0) {
+                  // holder.menu.setVisibility(View.GONE);
+                   holder.tvSoldOut.setVisibility(View.VISIBLE);
+               } else {
+                  // holder.menu.setVisibility(View.VISIBLE);
+                   holder.tvSoldOut.setVisibility(View.GONE);
+               }
+
+               holder.ivItem.setTag(position);
+               holder.ivItem.setOnClickListener(onClickListener);
+               holder.menu.setOnClickListener(onClickListener);
+               holder.options.setOnClickListener(onClickListener);
+           }
 
     }
 
     @Override
     public int getItemCount() {
-        return ITEM_NAMES.length;
+        return items.size();
     }
     /**
      * Listener for the onclick events.
@@ -99,9 +97,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
                     int position = (int) v.getTag();
                     Intent intent = new Intent(activity, ViewItemDetailsActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putInt("imageId", ITEM_IDS[position]);
-                    bundle.putString("companyName", ITEM_NAMES[position]);
-                    bundle.putString("cost", ITEM_COSTS[position]);
+
+                    bundle.putString("imageUrl", items.get(position).imageUrl);
+                    bundle.putInt("id",items.get(position).itemId);
                     intent.putExtra("itemDetails", bundle);
                     ActivityOptionsCompat compat=ActivityOptionsCompat.makeSceneTransitionAnimation(activity, v, "ROBOT");
 

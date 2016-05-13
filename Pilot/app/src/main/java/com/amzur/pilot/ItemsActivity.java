@@ -15,6 +15,8 @@ import com.amzur.pilot.adapters.ItemsAdapter;
 import com.amzur.pilot.customviews.EndlessRecyclerViewScrollListener;
 import com.amzur.pilot.myretrofit.Listener;
 import com.amzur.pilot.myretrofit.RetrofitService;
+import com.amzur.pilot.pojos.ItemsPojo;
+import com.amzur.pilot.pojos.JsonParserForAll;
 import com.amzur.pilot.utilities.PreferenceData;
 import com.squareup.okhttp.ResponseBody;
 
@@ -33,6 +35,8 @@ public class ItemsActivity extends AppCompatActivity {
     //name of the selected category.
     String categoryName;
     SwipeRefreshLayout refreshLayout;
+    int CAT_ID;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
         Bundle b = getIntent().getExtras();
         categoryName = b.getString("category_name");
+        CAT_ID=b.getInt("category_id");
         ActionBar actionBar=getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -75,7 +80,7 @@ public class ItemsActivity extends AppCompatActivity {
         rvItems.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                getItems();
+                //getItems();
             }
         });
     }
@@ -117,12 +122,16 @@ public class ItemsActivity extends AppCompatActivity {
      * This method gets items data from the server.
      */
     public void getItems(){
-        Call<ResponseBody> call=MyApplication.getSerivce().getItems(2);
+        Call<ResponseBody> call=MyApplication.getSerivce().getItems(CAT_ID);
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
                 if(pos==0){
                     Log.i("result",result);
+                    ItemsPojo items=new JsonParserForAll().parseResponseToItems(result);
+                    if(items!=null&&items.Items.size()>0)
+                    itemsAdapter.addItems(items.Items);
+
                 }
             }
         },"Loading",false,ItemsActivity.this));

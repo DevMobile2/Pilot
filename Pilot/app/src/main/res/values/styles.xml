@@ -16,11 +16,11 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <item name="colorPrimary">@color/blue_app</item>
+        <item name="colorPrimary">@color/primary</item>
 
-        <item name="colorPrimaryDark">@color/bluee</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
-        <item name="colorAccent">@color/md_blue_400</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:spinnerMode">dialog</item>
         <item name="android:button">?android:attr/borderlessButtonStyle</item>
         <item name="windowActionBar">true</item>
@@ -31,11 +31,11 @@
     </style>
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/blue_app</item>
+        <item name="colorPrimary">@color/primary</item>
 
-        <item name="colorPrimaryDark">@color/bluee</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
-        <item name="colorAccent">@color/md_blue_400</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:spinnerMode">dialog</item>
         <item name="android:button">?android:attr/borderlessButtonStyle</item>
         <item name="windowActionBar">false</item>

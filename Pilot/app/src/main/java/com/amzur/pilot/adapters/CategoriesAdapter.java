@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.amzur.pilot.ItemsActivity;
 import com.amzur.pilot.R;
+import com.amzur.pilot.pojos.Category;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * This adapter sets data to the recycler view in Categories activity.
@@ -18,22 +22,21 @@ import com.amzur.pilot.R;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder> {
     //Instance of CategoriesActivity.
     Activity categoriesActivity;
-    //static image ids to display categories.
-    int[] CATEGORY_IMAGE_IDS = new int[]{R.drawable.mobiles, R.drawable.laptops, R.drawable.clothing, R.drawable.furniture, R.drawable.mobiles, R.drawable.books};
-    //static categories names.
-    String[] CATEGORY_NAMES = new String[]{"Mobiles", "Laptops", "Clothing & Accessories", "Furniture", "Jewelery", "Books"};
+    ArrayList<Category> categories;
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(categoriesActivity, ItemsActivity.class);
             intent.putExtra("category_name", "mobiles");
+            intent.putExtra("category_id", v.getTag().toString());
             categoriesActivity.startActivity(intent);
         }
     };
 
-    public CategoriesAdapter(Activity activity) {
+    public CategoriesAdapter(Activity activity,ArrayList<Category> mCategories) {
         categoriesActivity = activity;
-
+        categories=mCategories;
     }
 
     @Override
@@ -45,15 +48,19 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     @Override
     public void onBindViewHolder(CategoriesViewHolder holder, int position) {
 
-        holder.ivCategories.setImageResource(CATEGORY_IMAGE_IDS[position]);
-        holder.tvCategoryName.setText(CATEGORY_NAMES[position]);
-        holder.ivCategories.setOnClickListener(onClickListener);
+        Category category=categories.get(position);
+        if(category!=null) {
+            Picasso.with(categoriesActivity).load(category.imageUrl).placeholder(R.drawable.ecommerce_placeholder).error(R.drawable.error_image).into(holder.ivCategories);
+            holder.tvCategoryName.setText(category.categoryName);
+            holder.ivCategories.setTag(category.categoryId);
+            holder.ivCategories.setOnClickListener(onClickListener);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return CATEGORY_IMAGE_IDS.length;
+        return categories!=null?categories.size():0;
     }
 
     /**

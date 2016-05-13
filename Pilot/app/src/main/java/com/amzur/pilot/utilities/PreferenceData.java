@@ -62,6 +62,13 @@ public class PreferenceData {
         editor.apply();
     }
 
+    public static String getString(String key)
+    {
+        if(preferences==null)
+            preferences=getSharedPreferences();
+        return preferences.getString(key,"");
+    }
+
     /**
      * This method returns SharedPreferences object.
      * @return SharedPreferences object.
@@ -93,14 +100,15 @@ public class PreferenceData {
      * @param activity context of the activity from which this method is called.
      */
     public static void signOut(Activity activity){
-        signOutFromSession(activity,10);
+        PreferenceData.putLoginStatus(activity,false);
+        LoginManager.getInstance().logOut();
     }
 
     /**
      * Deletes the session from backend of this user and API_KEY get invalid now*/
-    public static void signOutFromSession(final Activity activity, long id)
+    public static void signOutFromSession(final Activity activity)
     {
-        Call<ResponseBody> call= MyApplication.getSerivce().authLogout(id);
+        Call<ResponseBody> call= MyApplication.getSerivce().authLogout();
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {

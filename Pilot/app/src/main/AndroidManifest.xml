@@ -73,7 +73,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".notifications.GcmIntentService" />
+        <service android:name=".notifications.MyGcmListenerService" />
         <service
             android:name=".notifications.RegistrationIntentService"
             android:exported="false" />
