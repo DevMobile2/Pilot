@@ -7,12 +7,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 
 import com.amzur.pilot.adapters.ItemsAdapter;
 import com.amzur.pilot.customviews.EndlessRecyclerViewScrollListener;
@@ -40,7 +38,8 @@ public class ItemsActivity extends AppCompatActivity {
     SwipeRefreshLayout refreshLayout;
     int CAT_ID;
     MenuItem toggle;
-    int numOfColums=2;
+    int numOfColums = 2;
+    ItemsPojo items;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,14 +49,13 @@ public class ItemsActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         categoryName = b.getString("category_name");
 
-        CAT_ID= b.getInt("category_id",0);
-        if(CAT_ID==0)
-        {
-            Toast.makeText(this,"Invalid category",Toast.LENGTH_LONG).show();
+        CAT_ID = b.getInt("category_id", 0);
+        if (CAT_ID == 0) {
+            Toast.makeText(this, "Invalid category", Toast.LENGTH_LONG).show();
             finish();
         }
 
-        ActionBar actionBar=getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -106,9 +104,8 @@ public class ItemsActivity extends AppCompatActivity {
 
     /**
      * This method sets data to the recycler view.
-
+     *
      * @param itemHeightIndicator value refers to number items in a row
-
      */
     private void setAdapterToRecyclerView(int itemHeightIndicator) {
 
@@ -122,8 +119,8 @@ public class ItemsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        menu.add(Menu.NONE,R.id.button,Menu.NONE,"Logout").setIcon(R.drawable.ic_power_settings_new_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        toggle=menu.add(Menu.NONE, R.id.auto, Menu.NONE, "").setIcon(R.drawable.ic_desktop_windows_white_24dp);
+        menu.add(Menu.NONE, R.id.button, Menu.NONE, "Logout").setIcon(R.drawable.ic_power_settings_new_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        toggle = menu.add(Menu.NONE, R.id.auto, Menu.NONE, "").setIcon(R.drawable.ic_desktop_windows_white_24dp);
         toggle.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return super.onCreateOptionsMenu(menu);
@@ -136,11 +133,10 @@ public class ItemsActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         if (item.getItemId() == R.id.auto) {
-            if(numOfColums==2) {
+            if (numOfColums == 2) {
                 numOfColums = 1;
                 toggle.setIcon(R.drawable.ic_border_all_white_24dp);
-            }
-            else {
+            } else {
                 numOfColums = 2;
                 toggle.setIcon(R.drawable.ic_desktop_windows_white_24dp);
             }
@@ -166,7 +162,7 @@ public class ItemsActivity extends AppCompatActivity {
 
                 if (pos == 0) {
 
-                    ItemsPojo items = new JsonParserForAll().parseResponseToItems(result);
+                    items = new JsonParserForAll().parseResponseToItems(result);
                     if (items != null) {
                         if (items.items.size() > 0) {
                             rvItems.setVisibility(View.VISIBLE);

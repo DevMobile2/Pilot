@@ -75,6 +75,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
     }
 
     public void addItems(List<ItemPojo> newItems) {
+        items.clear();
         items.addAll(newItems);
         notifyDataSetChanged();
     }
