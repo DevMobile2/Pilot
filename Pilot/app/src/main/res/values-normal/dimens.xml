@@ -32,7 +32,7 @@
      <dimen name="text_small">11sp</dimen>
      <dimen name="text_normal">12sp</dimen>
      <dimen name="text_name">14sp</dimen>
-     <dimen name="text_header">15sp</dimen>
+     <dimen name="text_header">16sp</dimen>
      <dimen name="text_profile_edit_texts">16sp</dimen>
      <dimen name="spinner_textsize">14dp</dimen>
     <dimen name="spinner_height">36dp</dimen>

@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
     @Override
     public void onSuccess(LoginResult loginResult) {
 
-
+        facebookLoginButton.setVisibility(View.GONE);
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
             public void onSuccess(String result, int pos, Throwable t) {
                 if (pos == 0) {
                     try {
-                        facebookLoginButton.setVisibility(View.GONE);
+
                         JSONObject object = new JSONObject(result);
                         PreferenceData.putString(PreferenceData.PREF_API_KEY, object.getString("api_key"));
                         PreferenceData.putLoginStatus(MainActivity.this, true);

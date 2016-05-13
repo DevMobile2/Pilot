@@ -7,9 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
 
 import com.amzur.pilot.adapters.ItemsAdapter;
 import com.amzur.pilot.customviews.EndlessRecyclerViewScrollListener;
@@ -36,7 +39,8 @@ public class ItemsActivity extends AppCompatActivity {
     String categoryName;
     SwipeRefreshLayout refreshLayout;
     int CAT_ID;
-
+    MenuItem toggle;
+    int numOfColums=2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,14 +49,22 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
         Bundle b = getIntent().getExtras();
         categoryName = b.getString("category_name");
-        CAT_ID = Integer.parseInt(b.getString("category_id"));
-        ActionBar actionBar = getSupportActionBar();
+
+        CAT_ID= b.getInt("category_id",0);
+        if(CAT_ID==0)
+        {
+            Toast.makeText(this,"Invalid category",Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        ActionBar actionBar=getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         initViews();
         setTitle(categoryName);
-        initializeRecyclerView(2);
+        initializeRecyclerView(numOfColums);
 
     }
 
@@ -71,8 +83,9 @@ public class ItemsActivity extends AppCompatActivity {
                 //getItems();
             }
         });
-        getItems();
         setAdapterToRecyclerView(numberOfColumns);
+        getItems();
+
     }
 
     /**
@@ -85,6 +98,7 @@ public class ItemsActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(false);
+                getItems();
             }
         });
 
@@ -92,8 +106,9 @@ public class ItemsActivity extends AppCompatActivity {
 
     /**
      * This method sets data to the recycler view.
-     *
-     * @param itemHeightIndicator
+
+     * @param itemHeightIndicator value refers to number items in a row
+
      */
     private void setAdapterToRecyclerView(int itemHeightIndicator) {
 
@@ -106,8 +121,11 @@ public class ItemsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, R.id.button, Menu.NONE, "Logout").setIcon(R.drawable.ic_power_settings_new_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menu.add(Menu.NONE, R.id.auto, Menu.NONE, "").setIcon(R.drawable.ic_border_all_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(Menu.NONE,R.id.button,Menu.NONE,"Logout").setIcon(R.drawable.ic_power_settings_new_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        toggle=menu.add(Menu.NONE, R.id.auto, Menu.NONE, "").setIcon(R.drawable.ic_desktop_windows_white_24dp);
+        toggle.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -118,7 +136,15 @@ public class ItemsActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         if (item.getItemId() == R.id.auto) {
-            initializeRecyclerView(1);
+            if(numOfColums==2) {
+                numOfColums = 1;
+                toggle.setIcon(R.drawable.ic_border_all_white_24dp);
+            }
+            else {
+                numOfColums = 2;
+                toggle.setIcon(R.drawable.ic_desktop_windows_white_24dp);
+            }
+            initializeRecyclerView(numOfColums);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -137,6 +163,7 @@ public class ItemsActivity extends AppCompatActivity {
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
+
                 if (pos == 0) {
 
                     ItemsPojo items = new JsonParserForAll().parseResponseToItems(result);

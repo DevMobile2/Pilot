@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -194,5 +197,17 @@ public class Utils {
      PreferenceData.putLoginStatus(act, false);
         act.startActivity(in);
 
+    }
+
+    public static SpannableStringBuilder getBlueText(String str, Context c)
+    {
+        if(str!=null)
+        {
+            int color =c.getResources().getColor(R.color.bluee);
+            SpannableStringBuilder bold=new SpannableStringBuilder(str);
+            bold.setSpan(new ForegroundColorSpan(color), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return bold;
+        }
+        return new SpannableStringBuilder();
     }
 }

@@ -27,9 +27,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Category category= (Category) v.getTag();
             Intent intent = new Intent(categoriesActivity, ItemsActivity.class);
-            intent.putExtra("category_name", "mobiles");
-            intent.putExtra("category_id", v.getTag().toString());
+            if(category!=null) {
+                intent.putExtra("category_name", category.categoryName);
+                intent.putExtra("category_id", category.categoryid);
+            }
             categoriesActivity.startActivity(intent);
         }
     };
@@ -52,7 +55,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         if(category!=null) {
             Picasso.with(categoriesActivity).load(category.imageUrl).placeholder(R.drawable.ecommerce_placeholder).error(R.drawable.error_image).into(holder.ivCategories);
             holder.tvCategoryName.setText(category.categoryName);
-            holder.ivCategories.setTag(category.categoryId);
+            holder.ivCategories.setTag(category);
             holder.ivCategories.setOnClickListener(onClickListener);
         }
 

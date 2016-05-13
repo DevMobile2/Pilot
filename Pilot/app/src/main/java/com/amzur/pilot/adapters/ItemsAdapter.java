@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Created by MRamesh on 06-05-2016.
+ *
  */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCategoryViewHolder> {
     //Instance of SelectedCategoryActivity.
@@ -90,6 +91,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
         ItemPojo item = items.get(position);
         if (item != null) {
             holder.tvCompanyName.setText(item.itemName);
+            holder.tvUnitPrice.setText("$"+item.unitPrice);
             Picasso.with(activity)
                     .load(item.imageUrl)
                     .placeholder(R.drawable.ecommerce_placeholder)
@@ -122,7 +124,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
      */
     public class SelectedCategoryViewHolder extends RecyclerView.ViewHolder {
         ImageView ivItem;
-        TextView tvCompanyName, tvSoldOut;
+        TextView tvCompanyName, tvSoldOut,tvUnitPrice;
         Button options;
         View menu;
 
@@ -133,10 +135,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
             menu = itemView.findViewById(R.id.menu_layout);
             options = (Button) itemView.findViewById(R.id.menu_icon);
             tvSoldOut = (TextView) itemView.findViewById(R.id.tvSold);
+            tvUnitPrice=(TextView)itemView.findViewById(R.id.tvUnitPrice);
             if(itemImageHeightIndicator){
-               int height= PreferenceData.getScreenHeight(activity);
+               int height;
                 int width=PreferenceData.getScreenWidth(activity);
-                FrameLayout.LayoutParams layoutParams=new FrameLayout.LayoutParams(width,width);
+                if(width>600)
+                    height=600;
+                else
+                height=width;
+                FrameLayout.LayoutParams layoutParams=new FrameLayout.LayoutParams(width,height);
                 ivItem.setLayoutParams(layoutParams);
             }
         }

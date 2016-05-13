@@ -33,7 +33,7 @@
      <dimen name="editext_login_padding">4dp</dimen>
      <dimen name="text_normal">14sp</dimen>
      <dimen name="text_name">16sp</dimen>
-     <dimen name="text_header">17sp</dimen>
+     <dimen name="text_header">18sp</dimen>
      <dimen name="text_small">13sp</dimen>
      <dimen name="text_profile_edit_texts">18sp</dimen>
      <dimen name="spinner_textsize">16dp</dimen>

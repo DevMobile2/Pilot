@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * Created by RameshK on 10-05-2016.
  *
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemPojo {
 
