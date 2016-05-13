@@ -12,6 +12,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amzur.pilot.adapters.CategoriesAdapter;
@@ -52,10 +54,9 @@ public class CategoriesActivity extends AppCompatActivity {
      * This method sets adapter to recycler view to display categories.
      */
 
-    private void setAdapterToRecyclerView() {
+    public void setAdapterToRecyclerView() {
 
         categoriesAdapter = new CategoriesAdapter(CategoriesActivity.this,categories.Categories);
-
         rvCategories.setAdapter(categoriesAdapter);
     }
 
@@ -72,11 +73,26 @@ public class CategoriesActivity extends AppCompatActivity {
                 categories=new JsonParserForAll().parseResponseToCategories(result);
                     if(categories!=null)
                     {
+                        rvCategories.setVisibility(View.VISIBLE);
+                        findViewById(R.id.tvNoCategories).setVisibility(View.GONE);
                         setAdapterToRecyclerView();
                     }
+                    else {
+                        showNoCategoriesFound();
+                    }
+                }
+                else{
+                    showNoCategoriesFound();
                 }
             }
+
+
         }, null, true, this));
+    }
+
+    private void showNoCategoriesFound() {
+       rvCategories.setVisibility(View.GONE);
+      findViewById(R.id.tvNoCategories).setVisibility(View.VISIBLE);
     }
 
 
@@ -93,14 +109,6 @@ public class CategoriesActivity extends AppCompatActivity {
             }
         });
         setTitle("Categories");
-
-        int number_of_columns = 2;
-       /* int width = PreferenceData.getScreenWidth(CategoriesActivity.this);
-        Log.i("screen width", String.valueOf(width));
-        if (width > 500 && width < 1200)
-            number_of_columns = 2;
-        else if (width > 1200)
-            number_of_columns = 3; */
         GridLayoutManager gridLayoutManager = new GridLayoutManager(CategoriesActivity.this,2);
         rvCategories.setLayoutManager(gridLayoutManager);
        getCategories(1);

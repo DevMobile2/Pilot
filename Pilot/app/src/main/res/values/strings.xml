@@ -101,4 +101,6 @@
     <string name="specifications">Specifications</string>
     <string name="unit_price">Unit Price</string>
     <string name="buy">BUY</string>
+    <string name="no_categories">No categories found</string>
+    <string name="no_items">No items found.</string>
 </resources>

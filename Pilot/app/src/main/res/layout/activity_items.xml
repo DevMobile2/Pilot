@@ -8,11 +8,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/refreshLayout">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
+        android:visibility="visible"
         android:id="@+id/rvItems"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/tvNoItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_items"/>
+        </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>
