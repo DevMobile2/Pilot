@@ -102,15 +102,14 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-
                         Log.i("FB Response",object.toString());
+
                         try {
                             doLogin(object.getString("email"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         //Bundle bFacebookData = getFacebookData(object);
-
 
                     }
                 });
