@@ -89,9 +89,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-
                         Log.i("FB Response",object.toString());
-
                         PreferenceData.putLoginStatus(MainActivity.this, true);
                         Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
                         startActivity(intent);

@@ -18,11 +18,7 @@
 
 
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".CategoriesActivity"
@@ -35,6 +31,13 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:hardwareAccelerated="false"
             android:configChanges="keyboard|screenSize|orientation"/>
+        <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -73,7 +76,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".notifications.GcmIntentService" />
+        <service android:name=".notifications.MyGcmListenerService" />
         <service
             android:name=".notifications.RegistrationIntentService"
             android:exported="false" />
