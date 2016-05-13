@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -45,15 +46,33 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
         Bundle b = getIntent().getExtras();
         categoryName = b.getString("category_name");
-        CAT_ID=b.getInt("category_id");
+        CAT_ID= Integer.parseInt(b.getString("category_id"));
         ActionBar actionBar=getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         initViews();
         setTitle(categoryName);
+        initializeRecyclerView(2);
+
+    }
+
+    /**
+     * This method sets layout manager to the recyclerview,get items from the server and set items details to the recyclerview.
+     * @param numberOfColumns number of columns to be displayed in grid layout.
+     */
+    private void initializeRecyclerView(int numberOfColumns) {
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(ItemsActivity.this, numberOfColumns);
+        rvItems.setLayoutManager(gridLayoutManager);
+        rvItems.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                //getItems();
+            }
+        });
         getItems();
-        setAdapterToRecyclerView();
+        setAdapterToRecyclerView(numberOfColumns);
     }
 
     /**
@@ -68,29 +87,16 @@ public class ItemsActivity extends AppCompatActivity {
                 refreshLayout.setRefreshing(false);
             }
         });
-        int numberOfColumns=1;
 
-        int width=PreferenceData.getScreenWidth(ItemsActivity.this);
-        if(width>500 && width <1200)
-            numberOfColumns=2;
-        else if(width>=1200)
-            numberOfColumns=3;
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(numberOfColumns, 1);
-        rvItems.setLayoutManager(gridLayoutManager);
-        rvItems.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                //getItems();
-            }
-        });
     }
 
     /**
      * This method sets data to the recycler view.
+     * @param itemHeightIndicator
      */
-    private void setAdapterToRecyclerView() {
+    private void setAdapterToRecyclerView(int itemHeightIndicator) {
 
-        itemsAdapter = new ItemsAdapter(ItemsActivity.this, categoryName);
+        itemsAdapter = new ItemsAdapter(ItemsActivity.this, categoryName,itemHeightIndicator);
 
         rvItems.setAdapter(itemsAdapter);
         rvItems.setHasFixedSize(true);
@@ -100,6 +106,7 @@ public class ItemsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE,R.id.button,Menu.NONE,"Logout").setIcon(R.drawable.ic_power_settings_new_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(Menu.NONE, R.id.auto, Menu.NONE, "").setIcon(R.drawable.ic_border_all_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -109,6 +116,9 @@ public class ItemsActivity extends AppCompatActivity {
             PreferenceData.signOut(ItemsActivity.this);
         if(item.getItemId()==android.R.id.home)
             finish();
+        if (item.getItemId() == R.id.auto) {
+            initializeRecyclerView(1);
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -13,6 +13,7 @@ import com.amzur.pilot.myretrofit.Listener;
 import com.amzur.pilot.myretrofit.RetrofitService;
 import com.amzur.pilot.notifications.RegistrationIntentService;
 import com.amzur.pilot.utilities.PreferenceData;
+import com.amzur.pilot.utilities.Utils;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -38,11 +39,11 @@ import retrofit.Call;
  * This class provides facebook login for the user.
  */
 public class MainActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     CallbackManager callbackManager;
     AccessTokenTracker accessTokenTracker;
     Button facebookLoginButton;
     LoginButton loginButton;
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.i("FB Response",object.toString());
+                        Log.i("FB Response", object.toString());
 
                         try {
                             doLogin(object.getString("email"));
@@ -120,27 +121,25 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
 
     }
 
-    public void doLogin(String email)
-    {
-        JSONObject loginObject=new JSONObject();
+    public void doLogin(String email) {
+        JSONObject loginObject = new JSONObject();
         try {
-            loginObject.put("email",email);
+            loginObject.put("email", email);
             loginObject.put("deviceId", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID));
-            loginObject.put("deviceType","ANDROID");
-            loginObject.put("deviceToken",PreferenceData.getRegistrationId(this));
+            loginObject.put("deviceType", "ANDROID");
+            loginObject.put("deviceToken", PreferenceData.getRegistrationId(this));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Call<ResponseBody> call=MyApplication.getSerivce().authLogin(loginObject.toString(),"application/json");
+        Call<ResponseBody> call = MyApplication.getSerivce().authLogin(loginObject.toString(), "application/json");
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
-                if(pos==0)
-                {
+                if (pos == 0) {
                     try {
                         facebookLoginButton.setVisibility(View.GONE);
-                        JSONObject object=new JSONObject(result);
-                        PreferenceData.putString(PreferenceData.PREF_API_KEY,object.getString("api_key"));
+                        JSONObject object = new JSONObject(result);
+                        PreferenceData.putString(PreferenceData.PREF_API_KEY, object.getString("api_key"));
                         PreferenceData.putLoginStatus(MainActivity.this, true);
                         Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
                         startActivity(intent);
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
 
                 }
             }
-        },"connecting...",true,MainActivity.this));
+        }, "connecting...", true, MainActivity.this));
     }
 
     @Override
@@ -160,7 +159,8 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
 
     @Override
     public void onError(FacebookException error) {
-
+        Utils.showSnackBarLongTime2(MainActivity.this, "Some thing went wrong please login again").show();
+        PreferenceData.signOut(MainActivity.this);
     }
 
 
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
             startActivity(intent);
         }
     }
+
     private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         if (apiAvailability != null) {

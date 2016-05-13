@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -93,15 +94,15 @@ public class CategoriesActivity extends AppCompatActivity {
         });
         setTitle("Categories");
 
-        int number_of_columns = 1;
-        int width = PreferenceData.getScreenWidth(CategoriesActivity.this);
+        int number_of_columns = 2;
+       /* int width = PreferenceData.getScreenWidth(CategoriesActivity.this);
         Log.i("screen width", String.valueOf(width));
         if (width > 500 && width < 1200)
             number_of_columns = 2;
         else if (width > 1200)
-            number_of_columns = 3;
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(number_of_columns, 1);
-        rvCategories.setLayoutManager(staggeredGridLayoutManager);
+            number_of_columns = 3; */
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(CategoriesActivity.this,2);
+        rvCategories.setLayoutManager(gridLayoutManager);
        getCategories(1);
     }
 

@@ -10,12 +10,14 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amzur.pilot.R;
 import com.amzur.pilot.ViewItemDetailsActivity;
 import com.amzur.pilot.pojos.ItemPojo;
+import com.amzur.pilot.utilities.PreferenceData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,7 +25,6 @@ import java.util.List;
 
 /**
  * Created by MRamesh on 06-05-2016.
- *
  */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCategoryViewHolder> {
     //Instance of SelectedCategoryActivity.
@@ -31,60 +32,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
     //name of the category to display items in recycler view.
     String categoryName;
     //static image ids to display items in the categories.
-
+    boolean itemImageHeightIndicator;
 
     ArrayList<ItemPojo> items;
-
-    public ItemsAdapter(Activity activity, String categoryName) {
-        this.activity = activity;
-        this.categoryName = categoryName;
-        items=new ArrayList<>();
-    }
-
-    public void addItems(List<ItemPojo> newItems)
-    {
-        items.addAll(newItems);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public SelectedCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = activity.getLayoutInflater().inflate(R.layout.adap_items_item, parent, false);
-        return new SelectedCategoryViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(SelectedCategoryViewHolder holder, final int position) {
-
-        ItemPojo item=items.get(position);
-           if(item!=null) {
-               holder.tvCompanyName.setText(item.itemName);
-               Picasso.with(activity)
-                       .load(item.imageUrl)
-                       .placeholder(R.drawable.ecommerce_placeholder)
-                       .error(R.drawable.error_image).
-                       into(holder.ivItem);
-
-               if (item.quantity == 0) {
-                  // holder.menu.setVisibility(View.GONE);
-                   holder.tvSoldOut.setVisibility(View.VISIBLE);
-               } else {
-                  // holder.menu.setVisibility(View.VISIBLE);
-                   holder.tvSoldOut.setVisibility(View.GONE);
-               }
-
-               holder.ivItem.setTag(position);
-               holder.ivItem.setOnClickListener(onClickListener);
-               holder.menu.setOnClickListener(onClickListener);
-               holder.options.setOnClickListener(onClickListener);
-           }
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
     /**
      * Listener for the onclick events.
      */
@@ -99,9 +49,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
                     Bundle bundle = new Bundle();
 
                     bundle.putString("imageUrl", items.get(position).imageUrl);
-                    bundle.putInt("id",items.get(position).itemId);
+                    bundle.putInt("id", items.get(position).itemId);
                     intent.putExtra("itemDetails", bundle);
-                    ActivityOptionsCompat compat=ActivityOptionsCompat.makeSceneTransitionAnimation(activity, v, "ROBOT");
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, v, "ROBOT");
 
                     activity.startActivity(intent, compat.toBundle());
                     break;
@@ -114,12 +64,65 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
             }
         }
     };
+
+    public ItemsAdapter(Activity activity, String categoryName, int itemHeightIndicator) {
+        this.activity = activity;
+        this.categoryName = categoryName;
+        items = new ArrayList<>();
+        if(itemHeightIndicator==1)
+            itemImageHeightIndicator=true;
+    }
+
+    public void addItems(List<ItemPojo> newItems) {
+        items.addAll(newItems);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public SelectedCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = activity.getLayoutInflater().inflate(R.layout.adap_items_item, parent, false);
+        return new SelectedCategoryViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(SelectedCategoryViewHolder holder, final int position) {
+
+        ItemPojo item = items.get(position);
+        if (item != null) {
+            holder.tvCompanyName.setText(item.itemName);
+            Picasso.with(activity)
+                    .load(item.imageUrl)
+                    .placeholder(R.drawable.ecommerce_placeholder)
+                    .error(R.drawable.error_image).
+                    into(holder.ivItem);
+
+            if (item.quantity == 0) {
+                // holder.menu.setVisibility(View.GONE);
+                holder.tvSoldOut.setVisibility(View.VISIBLE);
+            } else {
+                // holder.menu.setVisibility(View.VISIBLE);
+                holder.tvSoldOut.setVisibility(View.GONE);
+            }
+
+            holder.ivItem.setTag(position);
+            holder.ivItem.setOnClickListener(onClickListener);
+            holder.menu.setOnClickListener(onClickListener);
+            holder.options.setOnClickListener(onClickListener);
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
     /**
      * describes an item view and metadata about its place within the RecyclerView.
      */
     public class SelectedCategoryViewHolder extends RecyclerView.ViewHolder {
         ImageView ivItem;
-        TextView  tvCompanyName,tvSoldOut;
+        TextView tvCompanyName, tvSoldOut;
         Button options;
         View menu;
 
@@ -127,9 +130,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
             super(itemView);
             ivItem = (ImageView) itemView.findViewById(R.id.ivCategory);
             tvCompanyName = (TextView) itemView.findViewById(R.id.tvCompanyName);
-            menu =  itemView.findViewById(R.id.menu_layout);
+            menu = itemView.findViewById(R.id.menu_layout);
             options = (Button) itemView.findViewById(R.id.menu_icon);
-            tvSoldOut= (TextView) itemView.findViewById(R.id.tvSold);
+            tvSoldOut = (TextView) itemView.findViewById(R.id.tvSold);
+            if(itemImageHeightIndicator){
+               int height= PreferenceData.getScreenHeight(activity);
+                int width=PreferenceData.getScreenWidth(activity);
+                FrameLayout.LayoutParams layoutParams=new FrameLayout.LayoutParams(width,width);
+                ivItem.setLayoutParams(layoutParams);
+            }
         }
     }
 }

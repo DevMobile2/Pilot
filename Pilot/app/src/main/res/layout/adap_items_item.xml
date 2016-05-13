@@ -17,7 +17,7 @@
             android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_categories_height">
+                android:layout_height="wrap_content">
             <ImageView
                 android:scaleType="fitXY"
                 android:src="@drawable/mobiles"
@@ -62,7 +62,6 @@
                     android:layout_height="wrap_content">
 
                     <Button
-
                         android:layout_gravity="center"
                         android:id="@+id/menu_icon"
                         android:layout_width="4dp"
