@@ -25,7 +25,11 @@
                 android:id="@+id/tvUnitPrice"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="fsfsdfsdf"
+                style="@style/textview_name"
+                android:textColor="@color/md_green_600"
+                android:gravity="center"/>
 
             <Button
                 android:id="@+id/btBuy"

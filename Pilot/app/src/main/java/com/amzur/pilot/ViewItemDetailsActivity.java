@@ -52,6 +52,7 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
     };
     int ITEM_ID=1;
     ItemPojo item;
+    String categoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,14 +135,15 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
      * Update the ui using the response we got from server*/
     public void updateUi()
     {
-        ((TextView)findViewById(R.id.tvUnitPrice)).setText(item.unitPrice+"");
+        ((TextView)findViewById(R.id.tvUnitPrice)).setText("$"+item.price+" offer "+item.discountPercentage+"%");
         ((TextView)findViewById(R.id.tvItemName)).setText(item.itemName);
-        ((TextView)findViewById(R.id.tvCategoryName)).setText(item.categoryName);
+        if(categoryName!=null)
+        ((TextView)findViewById(R.id.tvCategoryName)).setText(categoryName);
         ((TextView)findViewById(R.id.tvDescription)).setText(item.description);
         ((TextView)findViewById(R.id.tvSpecifications)).setText(item.specifications);
         ((TextView)findViewById(R.id.tvSeller)).setText(item.seller);
 
-        ((TextView)findViewById(R.id.tvCondition)).setText(item.itemCondition);
+        ((TextView)findViewById(R.id.tvCondition)).setText(item.condition);
 
         Picasso.with(this).load(item.imageUrl).placeholder(R.drawable.ecommerce_placeholder).error(R.drawable.error_image).into((ImageView) findViewById(R.id.imageview_item));
     }
@@ -190,6 +192,8 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
                 collapsingToolbarLayout.setTitle(b.getString("companyName"));
                 collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(ViewItemDetailsActivity.this, R.color.blue_app));
             }
+            if(b.getString("category_name")!=null)
+                categoryName=b.getString("category_name");
             ITEM_ID=b.getInt("id",0);
         }
     }

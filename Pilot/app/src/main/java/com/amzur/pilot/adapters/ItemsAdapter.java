@@ -51,7 +51,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
 
                     bundle.putString("imageUrl", items.get(position).imageUrl);
                     bundle.putInt("id", items.get(position).itemId);
+                    bundle.putString("category_name",categoryName);
                     intent.putExtra("itemDetails", bundle);
+
                     ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, v, "ROBOT");
 
                     activity.startActivity(intent, compat.toBundle());
@@ -92,7 +94,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
         ItemPojo item = items.get(position);
         if (item != null) {
             holder.tvCompanyName.setText(item.itemName);
-            holder.tvUnitPrice.setText("$"+item.unitPrice);
+            holder.tvUnitPrice.setText("$"+item.price);
             Picasso.with(activity)
                     .load(item.imageUrl)
                     .placeholder(R.drawable.ecommerce_placeholder)
