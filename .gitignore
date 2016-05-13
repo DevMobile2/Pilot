@@ -72,6 +72,7 @@ gen-external-apklibs
 ## File-based project format:
 *.ipr
 *.iws
+*.gradle
 
 ## Plugin-specific files:
 
@@ -91,19 +92,19 @@ crashlytics-build.properties
 fabric.properties
 *.properties
 *.iml
-eTeki/app/build/*
-eTeki/app/app.iml
-eTeki/local.properties
-eTeki/.idea/*
-eTeki/.gradle/*
-eTeki/build/*
-eTeki/gradle/*
-eTeki/local.properties
-eTeki/app/app.iml
-eTeki/library/library.iml
-eTeki/local.properties
-eTeki/library/library.iml
-eTeki/app/jniLibs/*
-eTeki/app/session_analytics_to_send/*
-eTeki/app/session_analytics.tap
-eTeki/gradlew
+Pilot/app/build/*
+Pilot/app/app.iml
+Pilot/local.properties
+Pilot/.idea/*
+Pilot/.gradle/*
+Pilot/build/*
+Pilot/gradle/*
+Pilot/local.properties
+Pilot/app/app.iml
+Pilot/library/library.iml
+Pilot/local.properties
+Pilot/library/library.iml
+Pilot/app/jniLibs/*
+Pilot/app/session_analytics_to_send/*
+Pilot/app/session_analytics.tap
+Pilot/gradlew
