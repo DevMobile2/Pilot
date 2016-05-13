@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'pilot'
             keyPassword 'android'
-            storeFile file('C:\\Users\\RameshK\\Documents\\GitHub\\Pilot\\pilot.keystore')
+            storeFile file('D:\\AmzurProjects\\Pilot_demo\\Pilot\\pilot.keystore')
             //D:/AmzurProjects/Pilot_demo/Pilot
             storePassword 'android'
         }

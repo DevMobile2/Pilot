@@ -21,11 +21,13 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
     <TextView
+        android:onClick="refreshPage"
+        android:drawableLeft="@drawable/ic_refresh_black_24dp"
         android:visibility="gone"
         android:gravity="center"
         android:layout_gravity="center"
         android:id="@+id/tvNoItems"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_items"/>
 

@@ -8,16 +8,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amzur.pilot.adapters.CategoriesAdapter;
-import com.amzur.pilot.customviews.EndlessRecyclerViewScrollListener;
 import com.amzur.pilot.myretrofit.Listener;
 import com.amzur.pilot.myretrofit.RetrofitService;
 import com.amzur.pilot.pojos.Categories;
@@ -36,17 +32,17 @@ public class CategoriesActivity extends AppCompatActivity {
     public RecyclerView rvCategories;
     //Adapter to set data to the recyclerview;
     public CategoriesAdapter categoriesAdapter;
-    //flag used to quit the application on clicking back button twice.
-    boolean doubleBackToExitPressedOnce = false;
     public SwipeRefreshLayout refreshLayout;
     public Categories categories;
+    //flag used to quit the application on clicking back button twice.
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
         initializeUIComponents();
-       // setAdapterToRecyclerView();
+        // setAdapterToRecyclerView();
 
     }
 
@@ -56,7 +52,7 @@ public class CategoriesActivity extends AppCompatActivity {
 
     public void setAdapterToRecyclerView() {
 
-        categoriesAdapter = new CategoriesAdapter(CategoriesActivity.this,categories.Categories);
+        categoriesAdapter = new CategoriesAdapter(CategoriesActivity.this, categories.Categories);
         rvCategories.setAdapter(categoriesAdapter);
     }
 
@@ -70,18 +66,15 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
                 if (pos == 0) {
-                categories=new JsonParserForAll().parseResponseToCategories(result);
-                    if(categories!=null)
-                    {
-                        rvCategories.setVisibility(View.VISIBLE);
+                    categories = new JsonParserForAll().parseResponseToCategories(result);
+                    if (categories != null) {
+                        refreshLayout.setVisibility(View.VISIBLE);
                         findViewById(R.id.tvNoCategories).setVisibility(View.GONE);
                         setAdapterToRecyclerView();
-                    }
-                    else {
+                    } else {
                         showNoCategoriesFound();
                     }
-                }
-                else{
+                } else {
                     showNoCategoriesFound();
                 }
             }
@@ -91,8 +84,8 @@ public class CategoriesActivity extends AppCompatActivity {
     }
 
     private void showNoCategoriesFound() {
-       rvCategories.setVisibility(View.GONE);
-      findViewById(R.id.tvNoCategories).setVisibility(View.VISIBLE);
+        refreshLayout.setVisibility(View.GONE);
+        findViewById(R.id.tvNoCategories).setVisibility(View.VISIBLE);
     }
 
 
@@ -110,9 +103,9 @@ public class CategoriesActivity extends AppCompatActivity {
             }
         });
         setTitle("Categories");
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(CategoriesActivity.this,2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(CategoriesActivity.this, 2);
         rvCategories.setLayoutManager(gridLayoutManager);
-       getCategories(1);
+        getCategories(1);
     }
 
     @Override
@@ -150,5 +143,13 @@ public class CategoriesActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+    }
+
+    /**
+     * This method refresh the page when no data found textview is clicked.
+     * @param view object of no data found Textview.
+     */
+    public void refreshPage(View view) {
+        getCategories(1);
     }
 }

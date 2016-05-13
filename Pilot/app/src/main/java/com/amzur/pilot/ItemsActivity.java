@@ -162,10 +162,10 @@ public class ItemsActivity extends AppCompatActivity {
 
                 if (pos == 0) {
 
-                    items = new JsonParserForAll().parseResponseToItems(result);
+               items = new JsonParserForAll().parseResponseToItems(result);
                     if (items != null) {
                         if (items.items.size() > 0) {
-                            rvItems.setVisibility(View.VISIBLE);
+                            refreshLayout.setVisibility(View.VISIBLE);
                             findViewById(R.id.tvNoItems).setVisibility(View.GONE);
                             itemsAdapter.addItems(items.items);
                         }
@@ -181,7 +181,11 @@ public class ItemsActivity extends AppCompatActivity {
     }
 
     private void showNoItemsFound() {
-        rvItems.setVisibility(View.GONE);
+        refreshLayout.setVisibility(View.GONE);
         findViewById(R.id.tvNoItems).setVisibility(View.VISIBLE);
+    }
+
+    public void refreshPage(View view) {
+        getItems();
     }
 }
