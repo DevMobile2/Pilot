@@ -95,7 +95,7 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
                              JSONObject object=new JSONObject(result);
                              if(item!=null)
                              item.quantity=object.getInt("quantity");
-                             updateUi();
+                           //  updateUi();
                          } catch (JSONException e) {
                              e.printStackTrace();
                          }
@@ -122,6 +122,7 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
                     item=new JsonParserForAll().parseItemResponse(result);
                     if(item!=null)
                     {
+                        updateUi();
                         checkItemsQuantity();
                     }
                 }
