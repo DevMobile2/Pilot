@@ -14,5 +14,5 @@ public class ItemsPojo {
     public int categoryId;
     public String categoryName;
     public String imageUrl;
-    public List<ItemPojo> Items;
+    public List<ItemPojo> items;
 }

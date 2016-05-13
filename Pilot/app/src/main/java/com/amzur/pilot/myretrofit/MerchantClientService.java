@@ -32,8 +32,8 @@ public interface MerchantClientService {
     @GET("merchant-rest-service/items/{id}")
     Call<ResponseBody> getItemDetails(@Path("id") int id);
 
-    @POST("merchant-rest-service/buy/{id}")
-    Call<ResponseBody> buyItem(@Path("id") int id);
+    @POST("merchant-rest-service/buy")
+    Call<ResponseBody> buyItem(@Body String body, @Header("Content-type")String content);
 
 
 }

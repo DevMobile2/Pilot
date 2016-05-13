@@ -89,6 +89,7 @@ public class CategoriesActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                getCategories(1);
                 refreshLayout.setRefreshing(false);
             }
         });

@@ -66,7 +66,7 @@ public class PreferenceData {
     {
         if(preferences==null)
             preferences=getSharedPreferences();
-        return preferences.getString(key,"");
+        return preferences.getString(key,"hello");
     }
 
     /**

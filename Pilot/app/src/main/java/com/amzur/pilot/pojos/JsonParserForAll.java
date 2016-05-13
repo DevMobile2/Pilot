@@ -93,7 +93,7 @@ public class JsonParserForAll {
     public List<ItemPojo> getItems()
     {
         if(itemsPojo!=null)
-        return itemsPojo.Items;
+        return itemsPojo.items;
         else
             return new ArrayList<>();
     }

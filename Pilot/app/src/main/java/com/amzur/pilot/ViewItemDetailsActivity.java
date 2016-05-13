@@ -81,23 +81,32 @@ public class ViewItemDetailsActivity extends AppCompatActivity {
      */
      public void buyClick(View v)
      {
-         Call<ResponseBody> call=MyApplication.getSerivce().buyItem(ITEM_ID);
-         call.enqueue(new Listener(new RetrofitService() {
-             @Override
-             public void onSuccess(String result, int pos, Throwable t) {
+         JSONObject object=new JSONObject();
+         try {
+             object.put("itemId",ITEM_ID);
+             Call<ResponseBody> call=MyApplication.getSerivce().buyItem(object.toString(), "application/json");
+             call.enqueue(new Listener(new RetrofitService() {
+                 @Override
+                 public void onSuccess(String result, int pos, Throwable t) {
 
-                 if(pos==0)
-                 {
-                     try {
-                         JSONObject object=new JSONObject(result);
-                         item.quantity=object.getInt("quantity");
-                         updateUi();
-                     } catch (JSONException e) {
-                         e.printStackTrace();
+                     if(pos==0)
+                     {
+                         try {
+                             JSONObject object=new JSONObject(result);
+                             if(item!=null)
+                             item.quantity=object.getInt("quantity");
+                             updateUi();
+                         } catch (JSONException e) {
+                             e.printStackTrace();
+                         }
                      }
                  }
-             }
-         },"buying...",true,this));
+             },"buying...",true,this));
+
+         } catch (JSONException e) {
+             e.printStackTrace();
+         }
+
      }
 
     /**
