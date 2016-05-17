@@ -3,7 +3,6 @@ package com.amzur.pilot.adapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -25,7 +24,7 @@ import java.util.List;
 
 /**
  * Created by MRamesh on 06-05-2016.
- *
+ * This adapter sets data to the Items Activity recyclerview.
  */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCategoryViewHolder> {
     //Instance of SelectedCategoryActivity.
@@ -53,10 +52,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
                     bundle.putInt("id", items.get(position).itemId);
                     bundle.putString("category_name",categoryName);
                     intent.putExtra("itemDetails", bundle);
-
+                    activity.startActivity(intent);
+/*
                     ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, v, "ROBOT");
 
-                    activity.startActivity(intent, compat.toBundle());
+                    activity.startActivity(intent, compat.toBundle());*/
                     break;
                 case R.id.menu_layout:
                 case R.id.menu_icon:
@@ -98,7 +98,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.SelectedCate
             Picasso.with(activity)
                     .load(item.imageUrl)
                     .placeholder(R.drawable.ecommerce_placeholder)
-                    .error(R.drawable.error_image).
+                    .error(R.drawable.ecommerce_placeholder).
                     into(holder.ivItem);
 
             if (item.quantity == 0) {

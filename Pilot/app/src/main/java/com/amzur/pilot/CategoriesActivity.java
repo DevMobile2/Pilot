@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ public class CategoriesActivity extends AppCompatActivity {
     public RecyclerView rvCategories;
     //Adapter to set data to the recyclerview;
     public CategoriesAdapter categoriesAdapter;
+    //object of swipe refresh layout to refresh the view.
     public SwipeRefreshLayout refreshLayout;
     public Categories categories;
     //flag used to quit the application on clicking back button twice.
@@ -61,7 +63,7 @@ public class CategoriesActivity extends AppCompatActivity {
      * Get categories for the user
      */
     public void getCategories(int page) {
-        Call<ResponseBody> call = MyApplication.getSerivce().getCategories();
+        Call<ResponseBody> call = MyApplication.getSerivce().getCategories(PreferenceData.getString(PreferenceData.PREF_API_KEY));
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
@@ -80,7 +82,7 @@ public class CategoriesActivity extends AppCompatActivity {
             }
 
 
-        }, null, true, this));
+        }, "Loading", true, this));
     }
 
     private void showNoCategoriesFound() {

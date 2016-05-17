@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,10 +36,14 @@ public class ItemsActivity extends AppCompatActivity {
     ItemsAdapter itemsAdapter;
     //name of the selected category.
     String categoryName;
+    //object of swipe refresh layout;
     SwipeRefreshLayout refreshLayout;
+    //category id came from the previous activity.
     int CAT_ID;
+    //used for adding single item view option in the menu dynamically.
     MenuItem toggle;
     int numOfColums = 2;
+    //object of the class containing same fields as the response from the server.
     ItemsPojo items;
 
     @Override
@@ -155,7 +160,7 @@ public class ItemsActivity extends AppCompatActivity {
      * This method gets items data from the server.
      */
     public void getItems() {
-        Call<ResponseBody> call = MyApplication.getSerivce().getItems(CAT_ID);
+        Call<ResponseBody> call = MyApplication.getSerivce().getItems(PreferenceData.getString(PreferenceData.PREF_API_KEY),CAT_ID);
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
@@ -169,6 +174,9 @@ public class ItemsActivity extends AppCompatActivity {
                             findViewById(R.id.tvNoItems).setVisibility(View.GONE);
                             itemsAdapter.addItems(items.items);
                         }
+                        else {
+                            showNoItemsFound();
+                        }
                     } else {
                         showNoItemsFound();
                     }
@@ -177,7 +185,7 @@ public class ItemsActivity extends AppCompatActivity {
                     showNoItemsFound();
                 }
             }
-        }, "Loading", false, ItemsActivity.this));
+        }, "Loading", true, ItemsActivity.this));
     }
 
     private void showNoItemsFound() {

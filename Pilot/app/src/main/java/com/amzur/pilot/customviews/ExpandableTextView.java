@@ -13,6 +13,7 @@ import com.amzur.pilot.utilities.Utils;
 /**
  * User: Bazlur Rahman Rokon
  * Date: 9/7/13 - 3:33 AM
+ * Custom Expanded textview to display multiple lines of data.
  */
 public class ExpandableTextView extends TextView {
     private static final int DEFAULT_TRIM_LENGTH = 150;

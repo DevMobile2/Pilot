@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Category {
-    public int categoryid;
+    public int categoryId;
     public String categoryName;
     public String description;
     public String imageUrl;

@@ -31,7 +31,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             Intent intent = new Intent(categoriesActivity, ItemsActivity.class);
             if(category!=null) {
                 intent.putExtra("category_name", category.categoryName);
-                intent.putExtra("category_id", category.categoryid);
+                intent.putExtra("category_id", category.categoryId);
             }
             categoriesActivity.startActivity(intent);
         }
@@ -53,7 +53,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         Category category=categories.get(position);
         if(category!=null) {
-            Picasso.with(categoriesActivity).load(category.imageUrl).placeholder(R.drawable.ecommerce_placeholder).error(R.drawable.error_image).into(holder.ivCategories);
+            Picasso.with(categoriesActivity).load(category.imageUrl).placeholder(R.drawable.ecommerce_placeholder).error(R.drawable.ecommerce_placeholder).into(holder.ivCategories);
             holder.tvCategoryName.setText(category.categoryName);
             holder.ivCategories.setTag(category);
             holder.ivCategories.setOnClickListener(onClickListener);

@@ -7,15 +7,23 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 
+import android.provider.Settings;
 import android.widget.Toast;
 
 import android.util.Log;
 
 import com.amzur.pilot.MyApplication;
+import com.amzur.pilot.interfaces.ConformationListener;
 import com.amzur.pilot.myretrofit.Listener;
 import com.amzur.pilot.myretrofit.RetrofitService;
 import com.facebook.login.LoginManager;
 import com.squareup.okhttp.ResponseBody;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import retrofit.Call;
 
@@ -30,7 +38,7 @@ public class PreferenceData {
     public static final String PREF_LOGIN="login";
 
     public static final String PREF_API_KEY="api_key";
-
+    public static final String PREF_EMAIL="email";
     static final String TAG = "Splash Screen";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
@@ -50,6 +58,15 @@ public class PreferenceData {
         editor.apply();
     }
 
+
+    public static void putEmail(Context context, String email_id)
+    {
+        if(preferences==null)
+            preferences=context.getSharedPreferences(SHARED_PREF, 0);
+        editor=preferences.edit();
+        editor.putString(PREF_EMAIL, email_id);
+        editor.apply();
+    }
     /**
      * This method stores a value in the sharedPreferences with a specified key.
      * @param val value to be stored in the SharedPreferences.
@@ -58,7 +75,6 @@ public class PreferenceData {
     public static void putString( String key,String val) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putString(key, val);
-
         editor.apply();
     }
 
@@ -99,16 +115,31 @@ public class PreferenceData {
      * This method performs signout operation and puts login status as false in the SharedPreferences.
      * @param activity context of the activity from which this method is called.
      */
-    public static void signOut(Activity activity){
-        PreferenceData.putLoginStatus(activity,false);
-        LoginManager.getInstance().logOut();
+    public static void signOut(final Activity activity){
+        Utils.showConformationDialog(activity, "Sign out", "Do you want to Sign out?", new ConformationListener() {
+            @Override
+            public void conformed() {
+                signOutFromSession(activity);
+            }
+        });
+
+
     }
 
     /**
      * Deletes the session from backend of this user and API_KEY get invalid now*/
-    public static void signOutFromSession(final Activity activity)
-    {
-        Call<ResponseBody> call= MyApplication.getSerivce().authLogout();
+    public static void signOutFromSession(final Activity activity){
+        JSONObject logoutObject=new JSONObject();
+        try {
+            logoutObject.put("email", PreferenceData.getString(PreferenceData.PREF_EMAIL));
+            logoutObject.put("deviceId", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID));
+            logoutObject.put("deviceType", "ANDROID");
+            logoutObject.put("deviceToken", PreferenceData.getRegistrationId(activity));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Call<ResponseBody> call= MyApplication.getSerivce().authLogout(PreferenceData.getString(PreferenceData.PREF_API_KEY),logoutObject.toString(), "application/json");
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
@@ -145,7 +176,11 @@ public class PreferenceData {
         return size.x;
     }
 
-
+    /**
+     * This method gets gcm registration id from the shared preferences.
+     * @param con context of the application.
+     * @return
+     */
     public static String getRegistrationId(Context con) {
         if(preferences==null)
             preferences=con.getSharedPreferences(SHARED_PREF, 0);
@@ -193,6 +228,17 @@ public class PreferenceData {
 
             preferences = context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         }
+    }
+
+    /**
+     * This method returns the cost in us currency format.
+     * @param val value to be converted into us currency format.
+     * @return
+     */
+    public static String getUsCurrency(Object val)
+    {
+        NumberFormat format=NumberFormat.getCurrencyInstance(Locale.US);
+        return format.format(val);
     }
 
 }

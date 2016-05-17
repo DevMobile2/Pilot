@@ -9,29 +9,40 @@
     tools:context="com.amzur.pilot.ViewItemDetailsActivity"
     tools:showIn="@layout/activity_view_item_details">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/view_margin_10">
+
+        <ImageView
+            android:id="@+id/imageview_item"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/app_name"
+
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:id="@+id/priceBuyContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="@dimen/view_margin_10">
 
             <TextView
                 android:id="@+id/tvUnitPrice"
+                style="@style/textview_name"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="fsfsdfsdf"
-                style="@style/textview_name"
-                android:textColor="@color/md_green_600"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/md_green_600" />
 
             <Button
+
                 android:id="@+id/btBuy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -41,7 +52,7 @@
                 android:onClick="buyClick"
                 android:padding="@dimen/view_margin_10"
                 android:text="@string/buy"
-                android:textColor="@color/dark_grey" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <TableLayout
@@ -50,33 +61,56 @@
             android:layout_below="@+id/priceBuyContainer">
 
             <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:background="@drawable/table_row_border"
-                android:padding="@dimen/view_margin"
-                >
+                android:padding="@dimen/view_margin">
+
+                <TextView
+                    android:id="@+id/tvFinalHeader"
+                    style="@style/textview_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/view_margin_20"
+                    android:layout_marginRight="@dimen/view_margin_20"
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text="@string/final_price" />
+
+                <TextView
+                    android:id="@+id/tvFinalPrice"
+                    style="@style/textview_header_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10" />
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin">
 
                 <TextView
                     android:id="@+id/tvItemNameHeader"
                     style="@style/textview_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginEnd="@dimen/view_margin_20"
                     android:layout_marginRight="@dimen/view_margin_20"
                     android:layout_marginTop="@dimen/view_margin_10"
                     android:text="@string/item_name" />
 
                 <TextView
                     android:id="@+id/tvItemName"
-
                     style="@style/textview_header_normal"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/view_margin_10" />
             </TableRow>
 
-            <TableRow android:background="@drawable/table_row_border"
-                android:padding="@dimen/view_margin"
-                >
+            <TableRow
+                android:background="@drawable/table_row_border"
+                android:padding="@dimen/view_margin">
 
                 <TextView
                     android:id="@+id/tvItemCategoryHeader"
@@ -98,12 +132,12 @@
                     android:layout_marginTop="@dimen/view_margin_10" />
             </TableRow>
 
-            <TableRow android:background="@drawable/table_row_border"
+            <TableRow
+                android:background="@drawable/table_row_border"
                 android:padding="@dimen/view_margin">
 
                 <TextView
                     android:id="@+id/tvDescHeader"
-
                     style="@style/textview_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,17 +145,21 @@
                     android:layout_marginTop="@dimen/view_margin_10"
                     android:text="@string/Description" />
 
-                <TextView
+                <com.amzur.pilot.customviews.ExpandableTextView
                     android:id="@+id/tvDescription"
-
+                    android:ellipsize="end"
                     style="@style/textview_header_normal"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/view_margin_10" />
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:text=""
+                    android:clickable="true"
+                    android:textColor="@color/md_teal_800" />
+
             </TableRow>
 
-            <TableRow android:background="@drawable/table_row_border"
+            <TableRow
+                android:background="@drawable/table_row_border"
                 android:padding="@dimen/view_margin">
 
                 <TextView
@@ -134,17 +172,24 @@
                     android:layout_marginTop="@dimen/view_margin_10"
                     android:text="@string/specifications" />
 
-                <TextView
-                    android:id="@+id/tvSpecifications"
 
+
+
+                <com.amzur.pilot.customviews.ExpandableTextView
+                    android:id="@+id/tvSpecifications"
+                    android:ellipsize="end"
                     style="@style/textview_header_normal"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/view_margin_10" />
+                    android:layout_marginTop="@dimen/view_margin_10"
+                    android:clickable="true"
+                    android:textColor="@color/md_teal_800" />
+
             </TableRow>
 
-            <TableRow android:background="@drawable/table_row_border"
+            <TableRow
+                android:background="@drawable/table_row_border"
                 android:padding="@dimen/view_margin">
 
                 <TextView
@@ -167,7 +212,8 @@
                     android:layout_marginTop="@dimen/view_margin_10" />
             </TableRow>
 
-            <TableRow android:background="@drawable/table_row_border"
+            <TableRow
+                android:background="@drawable/table_row_border"
                 android:padding="@dimen/view_margin">
 
                 <TextView
@@ -190,7 +236,8 @@
                     android:layout_marginTop="@dimen/view_margin_10" />
             </TableRow>
 
-            <TableRow android:background="@drawable/table_row_border"
+            <TableRow
+                android:background="@drawable/table_row_border"
                 android:padding="@dimen/view_margin">
 
                 <TextView

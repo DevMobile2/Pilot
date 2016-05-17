@@ -37,6 +37,7 @@ import retrofit.Call;
 
 /**
  * This class provides facebook login for the user.
+ * This class provides facebook login for the application.
  */
 public class MainActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -121,9 +122,14 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
 
     }
 
+    /**
+     * This method send user data to the server to perform login.
+     * @param email email id retrieved from the facebook account.
+     */
     public void doLogin(String email) {
         JSONObject loginObject = new JSONObject();
         try {
+            PreferenceData.putEmail(MainActivity.this,email);
             loginObject.put("email", email);
             loginObject.put("deviceId", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID));
             loginObject.put("deviceType", "ANDROID");
@@ -131,7 +137,8 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Call<ResponseBody> call = MyApplication.getSerivce().authLogin(loginObject.toString(), "application/json");
+    Call<ResponseBody> call = MyApplication.getSerivce().authLogin(loginObject.toString(), "application/json");
+
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
@@ -179,6 +186,10 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
         }
     }
 
+    /**
+     * This method checks whether the google play services are available in the device or not.
+     * @return false if the google play services are not available.
+     */
     private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         if (apiAvailability != null) {

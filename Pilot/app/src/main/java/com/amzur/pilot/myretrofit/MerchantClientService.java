@@ -21,19 +21,19 @@ public interface MerchantClientService {
     Call<ResponseBody> authLogin(@Body String body, @Header("Content-type")String content);
 
     @POST("merchant-rest-service/auth/logout")
-    Call<ResponseBody> authLogout();
+    Call<ResponseBody> authLogout(@Header("api_key") String contentRange,@Body String body, @Header("Content-type")String content);
 
     @GET("merchant-rest-service/categories")
-    Call<ResponseBody> getCategories();
+    Call<ResponseBody> getCategories(@Header("api_key") String contentRange);
 
     @GET("merchant-rest-service/categories/{id}")
-    Call<ResponseBody> getItems(@Path("id") int id);
+    Call<ResponseBody> getItems(@Header("api_key") String contentRange,@Path("id") int id);
 
     @GET("merchant-rest-service/items/{id}")
-    Call<ResponseBody> getItemDetails(@Path("id") int id);
+    Call<ResponseBody> getItemDetails(@Header("api_key") String contentRange,@Path("id") int id);
 
     @POST("merchant-rest-service/buy")
-    Call<ResponseBody> buyItem(@Body String body, @Header("Content-type")String content);
+    Call<ResponseBody> buyItem(@Header("api_key") String contentRange,@Body String body, @Header("Content-type")String content);
 
 
 }

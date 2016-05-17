@@ -15,20 +15,18 @@ public class ItemPojo {
     public String itemName;
     public String description;
 
-    public String categoryId;
 
-    public String category;
 
     public String specifications;
 
     public String seller;
     public int quantity;
 
-    public int price;
+    public long price;
 
     public String imageUrl;
 
-    public long serialNumber;
+    public String serialNumber;
 
     public String condition;
 
