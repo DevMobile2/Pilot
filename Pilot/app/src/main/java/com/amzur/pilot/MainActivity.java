@@ -22,6 +22,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
@@ -144,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
             public void onSuccess(String result, int pos, Throwable t) {
                 if (pos == 0) {
                     try {
-
                         JSONObject object = new JSONObject(result);
                         PreferenceData.putString(PreferenceData.PREF_API_KEY, object.getString("api_key"));
                         PreferenceData.putLoginStatus(MainActivity.this, true);
@@ -154,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements FacebookCallback<
                         e.printStackTrace();
                     }
 
+                }else {
+                    LoginManager.getInstance().logOut();
+                    facebookLoginButton.setVisibility(View.VISIBLE);
                 }
             }
         }, "connecting...", true, MainActivity.this));

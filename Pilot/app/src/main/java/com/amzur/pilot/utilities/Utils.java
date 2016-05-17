@@ -32,11 +32,6 @@ public class Utils {
     public interface ErrorAlertCompleted {
         void OkaySelected();
     }
-    public static void shakeView(Context c, View v)
-    {
-        Animation utils= AnimationUtils.loadAnimation(c, R.anim.shake);
-        v.startAnimation(utils);
-    }
 
     public static void showErrorAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
@@ -63,28 +58,7 @@ public class Utils {
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.show();
     }
-    public static void showSuccessAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-                if (alertCompleted != null)
-                    alertCompleted.OkaySelected();
-
-            }
-        });
-        builder.setCancelable(false);
-        //builder.setIcon(android.R.drawable.ic_menu_save);
-        builder.show();
-    }
     public static void showSnackBar(Activity act,String msg){
         if (msg.contains(UtilsServer.MSG_AUTH_FAILED)) {
             parseJsonFeed(act);
@@ -114,12 +88,7 @@ public class Utils {
         return  Snackbar.make(act.findViewById(android.R.id.content),msg,Snackbar.LENGTH_LONG);
 
     }
-    public static void showSnackBarShortTime(Activity act,String msg){
-        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        Snackbar.make(act.findViewById(android.R.id.content),msg,Snackbar.LENGTH_SHORT).show();
-    }
+
 
     public static void showConformationDialog(Activity act, String title, String msg, final ConformationListener cl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(act);
@@ -147,50 +116,7 @@ public class Utils {
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.show();
     }
-    public static void showSuccessDialog(Activity act, String title, String msg, final ConformationListener cl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if(title!=null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.setMessage(msg);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (cl != null)
-                    cl.conformed();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        });
-        builder.setCancelable(false);
-
-        builder.show();
-    }
-    public static void showOkayDialog(Activity act, String title, String msg, final ConformationListener cl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if(title!=null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.setMessage(msg);
-        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (cl != null)
-                    cl.conformed();
-            }
-        });
-        builder.setCancelable(true);
-        builder.show();
-    }
     public static void parseJsonFeed(Activity act) {
         Intent in = new Intent(act, MainActivity.class);
         in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

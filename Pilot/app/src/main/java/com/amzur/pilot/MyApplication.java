@@ -24,6 +24,7 @@ import retrofit.Retrofit;
 
 /**
  * Created by MRamesh on 11-05-2016.
+ *
  */
 public class MyApplication extends Application {
     public static Retrofit mRetrofit;
